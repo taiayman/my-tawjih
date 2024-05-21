@@ -5,6 +5,10 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AIChatScreen extends StatefulWidget {
+  final bool isDarkTheme;
+
+  AIChatScreen({required this.isDarkTheme});
+
   @override
   _AIChatScreenState createState() => _AIChatScreenState();
 }
@@ -114,7 +118,7 @@ class _AIChatScreenState extends State<AIChatScreen> {
         ),
         child: Text(
           message['content'] ?? '',
-          style: GoogleFonts.rubik(
+          style: GoogleFonts.nunito(
             fontSize: 16,
             color: isUser ? const Color.fromARGB(255, 0, 0, 0) : (isAI ? Colors.black : Colors.red[900]),
           ),
@@ -129,8 +133,7 @@ class _AIChatScreenState extends State<AIChatScreen> {
       appBar: AppBar(
         title: Text(
           'AI Chat',
-          style: GoogleFonts.rubik(fontSize: 20),
-        ),
+          style: GoogleFonts.nunito(color: Colors.white)),
         backgroundColor: Color(0xFFD97757),
         elevation: 0,
         // Remove the back button
@@ -142,8 +145,8 @@ class _AIChatScreenState extends State<AIChatScreen> {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Color(0xFFEAEAEA),
-              Color(0xFFF5F5F5),
+              widget.isDarkTheme ? Color(0xFF2C2B28) : Color(0xFFF2F0E8),
+              widget.isDarkTheme ? Color(0xFF2C2B28) : Color(0xFFF2F0E8),
             ],
           ),
         ),
@@ -187,7 +190,7 @@ class _AIChatScreenState extends State<AIChatScreen> {
                           border: InputBorder.none,
                           contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 15),
                         ),
-                        style: GoogleFonts.rubik(fontSize: 16),
+                        style: GoogleFonts.nunito(fontSize: 16),
                       ),
                     ),
                     GestureDetector(
