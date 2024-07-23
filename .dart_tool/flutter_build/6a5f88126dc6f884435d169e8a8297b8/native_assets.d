@@ -1,0 +1,1 @@
+ C:\\Users\\LENOVO\\Desktop\\taleb\\.dart_tool\\flutter_build\\6a5f88126dc6f884435d169e8a8297b8\\native_assets.yaml: 

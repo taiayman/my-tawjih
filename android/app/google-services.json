@@ -1,27 +1,37 @@
 {
   "project_info": {
-    "project_number": "363455465873",
-    "firebase_url": "https://mounir-s-project-default-rtdb.firebaseio.com",
-    "project_id": "mounir-s-project",
-    "storage_bucket": "mounir-s-project.appspot.com"
+    "project_number": "643869892709",
+    "firebase_url": "https://taleb-36f3a-default-rtdb.firebaseio.com",
+    "project_id": "taleb-36f3a",
+    "storage_bucket": "taleb-36f3a.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:363455465873:android:d98d23f38910adfc5ab230",
+        "mobilesdk_app_id": "1:643869892709:android:7b4ad72ef19a5563fee68c",
         "android_client_info": {
-          "package_name": "com.business.management"
+          "package_name": "com.taleb.ma"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "643869892709-kmdesrfe23kku2valmvi7vp8t6it2b67.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyBqaca9qhGNlGCEUdkANbCrMVqXnA_5UoE"
+          "current_key": "AIzaSyClfEf6jgicBdjjf9NyHUhFe9WbmtWzVFU"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "643869892709-kmdesrfe23kku2valmvi7vp8t6it2b67.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
