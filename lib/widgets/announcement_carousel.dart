@@ -3,18 +3,23 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:taleb_edu_platform/models/announcement_model.dart';
 import 'package:intl/intl.dart';
-import 'package:cached_network_image/cached_network_image.dart'; // Import cached_network_image
+import 'package:cached_network_image/cached_network_image.dart';
 
 class AnnouncementCarousel extends StatelessWidget {
   final List<Announcement> announcements;
+  final Function(Announcement) onAnnouncementTap;
 
-  const AnnouncementCarousel({Key? key, required this.announcements}) : super(key: key);
+  const AnnouncementCarousel({
+    Key? key,
+    required this.announcements,
+    required this.onAnnouncementTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return CarouselSlider(
       options: CarouselOptions(
-        height: 300.0, // Increased height
+        height: 300.0,
         aspectRatio: 16 / 9,
         viewportFraction: 0.8,
         initialPage: 0,
@@ -30,82 +35,85 @@ class AnnouncementCarousel extends StatelessWidget {
       items: announcements.map((announcement) {
         return Builder(
           builder: (BuildContext context) {
-            return Container(
-              width: MediaQuery.of(context).size.width,
-              margin: EdgeInsets.symmetric(horizontal: 5.0),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Stack( // Using Stack to overlay gradient
-                children: [
-                  ClipRRect( // ClipRRect to apply rounded corners to image
-                    borderRadius: BorderRadius.circular(10),
-                    child: CachedNetworkImage( // Using CachedNetworkImage for better image loading
-                      imageUrl: announcement.schoolImageUrl ?? '',
-                      width: MediaQuery.of(context).size.width,
-                      height: 300, // Matching Carousel height
-                      fit: BoxFit.cover,
-                      placeholder: (context, url) => Center(child: CircularProgressIndicator()),
-                      errorWidget: (context, url, error) => Icon(Icons.error),
-                    ),
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
+            return GestureDetector(
+              onTap: () => onAnnouncementTap(announcement),
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                margin: EdgeInsets.symmetric(horizontal: 5.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Stack(
+                  children: [
+                    ClipRRect(
                       borderRadius: BorderRadius.circular(10),
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [Colors.transparent, Colors.black.withOpacity(0.8)],
+                      child: CachedNetworkImage(
+                        imageUrl: announcement.schoolImageUrl ?? '',
+                        width: MediaQuery.of(context).size.width,
+                        height: 300,
+                        fit: BoxFit.cover,
+                        placeholder: (context, url) => Center(child: CircularProgressIndicator()),
+                        errorWidget: (context, url, error) => Icon(Icons.error),
                       ),
                     ),
-                  ),
-                  Positioned.fill( // Positioned.fill to cover the entire image with padding
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              CircleAvatar(
-                                backgroundImage: NetworkImage(announcement.schoolImageUrl ?? ''),
-                                radius: 25,
-                              ),
-                              SizedBox(width: 10),
-                              Expanded(
-                                child: Text(
-                                  announcement.title,
-                                  style: GoogleFonts.cairo(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [Colors.transparent, Colors.black.withOpacity(0.8)],
+                        ),
+                      ),
+                    ),
+                    Positioned.fill(
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                CircleAvatar(
+                                  backgroundImage: AssetImage('assets/images/logo.png'),
+                                  radius: 25,
+                                ),
+                                SizedBox(width: 10),
+                                Expanded(
+                                  child: Text(
+                                    announcement.title,
+                                    style: GoogleFonts.cairo(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
                                   ),
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
                                 ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 8),
-                          Row(
-                            children: [
-                              Text(
-                                DateFormat('dd/MM/yyyy').format(announcement.date),
-                                style: GoogleFonts.cairo(
-                                  fontSize: 14,
-                                  color: Colors.white70,
+                              ],
+                            ),
+                            SizedBox(height: 8),
+                            Row(
+                              children: [
+                                Text(
+                                  DateFormat('dd/MM/yyyy').format(announcement.date),
+                                  style: GoogleFonts.cairo(
+                                    fontSize: 14,
+                                    color: Colors.white70,
+                                  ),
                                 ),
-                              ),
-                              SizedBox(width: 10),
-                              _buildEducationLevelChip(announcement.category),
-                            ],
-                          ),
-                        ],
+                                SizedBox(width: 10),
+                                _buildEducationLevelChip(announcement.category),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             );
           },

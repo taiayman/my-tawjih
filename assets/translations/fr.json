@@ -157,7 +157,29 @@
   "مسارات التعليم": "Parcours éducatifs",
   "لوحة تحكم الأدمن": "Tableau de bord admin",
   "إرسال إشعار": "Envoyer une notification",
-  "الإعلانات": "Annonces"
+  "الإعلانات": "Annonces",
+
+
+
+
+
+
+  "Description": "Description",
+  "Full Details": "Détails complets",
+  "View Official Document": "Voir le document officiel",
+  "Register": "S'inscrire",
+  "Application Details": "Détails de la candidature",
+  "Could not launch": "Impossible d'ouvrir",
+  "Learn More": "En savoir plus",
+  "Announcements": "Annonces",
+  "Categories": "Catégories",
+  "Education Pathways": "Parcours éducatifs",
+  "Admin Dashboard": "Tableau de bord admin",
+  "Send Notification": "Envoyer une notification",
+  "Institutions": "Institutions",
+  "Jobs": "Emplois",
+  "Guidance": "Orientation",
+  "Select Language": "Choisir la langue"
 
 
 }

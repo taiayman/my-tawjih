@@ -164,5 +164,27 @@
   "مسارات التعليم": "Education Pathways",
   "لوحة تحكم الأدمن": "Admin Dashboard",
   "إرسال إشعار": "Send Notification",
-  "الإعلانات": "Advertisements"
+  "الإعلانات": "Advertisements",
+
+
+
+
+
+
+  "Description": "Description",
+  "Full Details": "Full Details",
+  "View Official Document": "View Official Document",
+  "Register": "Register",
+  "Application Details": "Application Details",
+  "Could not launch": "Could not launch",
+  "Learn More": "Learn More",
+  "Announcements": "Announcements",
+  "Categories": "Categories",
+  "Education Pathways": "Education Pathways",
+  "Admin Dashboard": "Admin Dashboard",
+  "Send Notification": "Send Notification",
+  "Institutions": "Institutions",
+  "Jobs": "Jobs",
+  "Guidance": "Guidance",
+  "Select Language": "Select Language"
 }
