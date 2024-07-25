@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:taleb_edu_platform/models/mostajadat_modal.dart';
 import 'package:taleb_edu_platform/models/institution_model.dart';
 import 'package:taleb_edu_platform/providers/mostajadat_provider.dart';
+import 'package:taleb_edu_platform/screens/guidance_screen.dart';
 import 'package:taleb_edu_platform/screens/mostajadat_details_screen.dart';
 import 'package:taleb_edu_platform/screens/admin_dashboard.dart';
 import 'package:taleb_edu_platform/screens/institution_details_screen.dart';
@@ -24,6 +25,10 @@ class MostajadatScreen extends ConsumerStatefulWidget {
 class _MostajadatScreenState extends ConsumerState<MostajadatScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+    final TextStyle cairoBold = GoogleFonts.cairo(fontWeight: FontWeight.bold);
+  final TextStyle cairoSemiBold = GoogleFonts.cairo(fontWeight: FontWeight.w600);
+  final TextStyle cairoRegular = GoogleFonts.cairo(fontWeight: FontWeight.normal);
+
   final Map<String, String> categoryMap = {
     'institutions': 'institutions_label',
     'jobs': 'jobs_label',
@@ -267,7 +272,7 @@ class _MostajadatScreenState extends ConsumerState<MostajadatScreen>
           }
           return Stack(
             children: [
-              _pathwayStack.lastOrNull ?? Container(),
+              _pathwayStack.isNotEmpty ? _pathwayStack.last : Container(),
               if (_pathwayStack.length > 1)
                 Positioned(
                   top: 16,
@@ -317,7 +322,7 @@ class _MostajadatScreenState extends ConsumerState<MostajadatScreen>
                   child: SlideAnimation(
                     verticalOffset: 50.0,
                     child: FadeInAnimation(
-                      child: _buildPathwayCard(context, ref, pathways[index]),
+                      child: _buildPathwayCard(pathways[index]),
                     ),
                   ),
                 );
@@ -329,10 +334,7 @@ class _MostajadatScreenState extends ConsumerState<MostajadatScreen>
     );
   }
 
-  Widget _buildPathwayCard(BuildContext context, WidgetRef ref, EducationPathway pathway) {
-    final TextStyle cairoBold = GoogleFonts.cairo(fontWeight: FontWeight.bold);
-    final TextStyle cairoSemiBold = GoogleFonts.cairo(fontWeight: FontWeight.w600);
-    final TextStyle cairoRegular = GoogleFonts.cairo(fontWeight: FontWeight.normal);
+  Widget _buildPathwayCard(EducationPathway pathway) {
     return Card(
       elevation: 0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
@@ -342,7 +344,7 @@ class _MostajadatScreenState extends ConsumerState<MostajadatScreen>
         onTap: () {
           setState(() {
             _selectedPathway = pathway;
-            _pathwayStack.add(_buildSpecializationsView(context, ref, pathway));
+            _pathwayStack.add(_buildSpecializationsView(pathway));
           });
         },
         child: Padding(
@@ -385,37 +387,173 @@ class _MostajadatScreenState extends ConsumerState<MostajadatScreen>
     );
   }
 
-  Widget _buildSpecializationsView(BuildContext context, WidgetRef ref, EducationPathway pathway) {
-    final TextStyle cairoBold = GoogleFonts.cairo(fontWeight: FontWeight.bold);
-    final TextStyle cairoSemiBold = GoogleFonts.cairo(fontWeight: FontWeight.w600);
-    final TextStyle cairoRegular = GoogleFonts.cairo(fontWeight: FontWeight.normal);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        _buildSectionHeader('تخصصات ${pathway.name}'),
-        Expanded(
-          child: AnimationLimiter(
-            child: ListView.builder(
-              padding: EdgeInsets.all(16),
-              itemCount: pathway.specializations.length,
+Widget _buildSpecializationsView(EducationPathway pathway) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: [
+      _buildSectionHeader('تخصصات ${pathway.name}'),
+      Expanded(
+        child: AnimationLimiter(
+          child: ListView.builder(
+            padding: EdgeInsets.all(16),
+            itemCount: pathway.specializations.length,
+            itemBuilder: (context, index) {
+              final specialization = pathway.specializations[index];
+              return AnimationConfiguration.staggeredList(
+                position: index,
+                duration: const Duration(milliseconds: 375),
+                child: SlideAnimation(
+                  verticalOffset: 50.0,
+                  child: FadeInAnimation(
+                    child: Column(
+                      children: [
+                        _buildSpecializationCard(context, specialization),
+                        SizedBox(height: 8),
+                        FadeInConnectionLine(height: 40),
+                        SizedBox(height: 8),
+                        _buildUniversitiesSection(specialization),
+                        SizedBox(height: 24),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+      ),
+    ],
+  );
+}
+
+Widget _buildUniversitiesSection(Specialization specialization) {
+  return Card(
+    elevation: 2,
+    margin: EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+    child: Padding(
+      padding: EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+            AnimationLimiter(
+            child: GridView.builder(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+  crossAxisCount: 2,
+  childAspectRatio: 0.7, // Adjusted to account for the taller cards
+  crossAxisSpacing: 12,
+  mainAxisSpacing: 12,
+),
+              itemCount: specialization.universities.length,
               itemBuilder: (context, index) {
-                return AnimationConfiguration.staggeredList(
+                return AnimationConfiguration.staggeredGrid(
                   position: index,
-                  duration:                 const Duration(milliseconds: 375),
-                  child: SlideAnimation(
-                    verticalOffset: 50.0,
+                  duration: const Duration(milliseconds: 375),
+                  columnCount: 2,
+                  child: ScaleAnimation(
                     child: FadeInAnimation(
-                      child: _buildSpecializationCard(context, pathway.specializations[index]),
+                      child: _buildEnhancedUniversityCard(specialization.universities[index]),
                     ),
                   ),
                 );
               },
             ),
           ),
+        ],
+      ),
+    ),
+  );
+}
+
+Widget _buildEnhancedUniversityCard(University university) {
+  return Card(
+    elevation: 0,
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+    color: Colors.white,
+    child: Container(
+      height: 350, // Increased height to 350 logical pixels
+      width: 200,  // Added a fixed width to make the card larger
+      child: InkWell(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => UniversityDetailsScreen(university: university),
+            ),
+          );
+        },
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Expanded(
+              flex: 5, // Increased flex for the image area
+              child: ClipRRect(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
+                child: university.imageUrl.isNotEmpty
+                    ? Image.network(
+                        university.imageUrl,
+                        fit: BoxFit.cover,
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        },
+                      )
+                    : Container(
+                        color: Colors.grey[300],
+                        child: Icon(Icons.school, size: 60, color: Colors.grey[600]),
+                      ),
+              ),
+            ),
+            Expanded(
+              flex: 4, // Increased flex for the text area
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      university.name,
+                      style: cairoSemiBold.copyWith(fontSize: 20, color: Colors.black87),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    SizedBox(height: 8), // Added space between name and link
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Icon(Icons.link, size: 20, color: Colors.blue.shade600),
+                              SizedBox(width: 4),
+                              Expanded(
+                                child: Text(
+                                  university.website,
+                                  style: cairoRegular.copyWith(fontSize: 14, color: Colors.blue.shade600),
+                                  maxLines: 2, // Increased to 2 lines
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
-      ],
-    );
-  }
+      ),
+    ),
+  );
+}
 
   Widget _buildSpecializationCard(BuildContext context, Specialization specialization) {
     final TextStyle cairoBold = GoogleFonts.cairo(fontWeight: FontWeight.bold);
@@ -518,7 +656,12 @@ class _MostajadatScreenState extends ConsumerState<MostajadatScreen>
       color: Colors.white,
       child: InkWell(
         onTap: () {
-          // Handle university tap
+           Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => UniversityDetailsScreen(university: university),
+            ),
+          );
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,

@@ -41,9 +41,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with SingleTickerPr
   void _checkForInitialMessage() async {
     RemoteMessage? initialMessage = await FirebaseMessaging.instance.getInitialMessage();
     if (initialMessage != null) {
-      // Handle the initial message, e.g., navigate to a specific screen
       print("Initial message received: ${initialMessage.messageId}");
-      // You can add logic here to navigate to a specific screen based on the message
     }
     _navigateToLogin();
   }
@@ -102,6 +100,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with SingleTickerPr
                           height: 40,
                           fit: BoxFit.contain,
                         ),
+                        SizedBox(width: context.locale.languageCode == 'ar' ? 16 : 8),
                         Text(
                           'Taleb Educational Platform'.tr(),
                           style: GoogleFonts.cairo(
@@ -110,7 +109,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with SingleTickerPr
                             fontSize: 40,
                           ),
                         ),
-
                       ],
                     ),
                     SizedBox(height: 10),

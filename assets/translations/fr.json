@@ -179,7 +179,38 @@
   "Institutions": "Institutions",
   "Jobs": "Emplois",
   "Guidance": "Orientation",
-  "Select Language": "Choisir la langue"
+  "Select Language": "Choisir la langue",
+
+  "add_university": "Ajouter une université",
+  "edit_university": "Modifier l'université",
+  "university_saved_successfully": "Université enregistrée avec succès",
+  "failed_to_save_university": "Échec de l'enregistrement de l'université",
+  "university_preview": "Aperçu de l'université",
+  "university_name": "Nom de l'université",
+  "university_description": "Description de l'université",
+  "university_website": "Site web de l'université",
+  "add_content": "Ajouter du contenu",
+  "text": "Texte",
+  "image": "Image",
+  "code": "Code",
+  "quote": "Citation",
+  "enter_code_here": "Entrez le code ici",
+  "enter_quote_here": "Entrez la citation ici",
+  "font_size": "Taille de police",
+  "cancel": "Annuler",
+  "apply": "Appliquer",
+  "insert_link": "Insérer un lien",
+  "enter_url": "Entrez l'URL",
+  "enter_link_text": "Entrez le texte du lien",
+  "insert": "Insérer",
+  "button_links": "Liens de boutons",
+  "icon_links": "Liens d'icônes",
+  "add_edit_button_link": "Ajouter/Modifier un lien de bouton",
+  "button_text": "Texte du bouton",
+  "url": "URL",
+  "save": "Enregistrer",
+  "add_edit_icon_link": "Ajouter/Modifier un lien d'icône"
+
 
 
 }

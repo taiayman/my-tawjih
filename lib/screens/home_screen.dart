@@ -521,7 +521,7 @@ void _launchURL(String url) {
                       padding: EdgeInsets.symmetric(vertical: 12),
                       textStyle: TextStyle(fontSize: 16),
                     ),
-                    child: Text('لوحة تحكم الأدمن'.tr()),
+                    child: Text('لوحة تحكم'.tr()),
                   ),
                 ),
               ),

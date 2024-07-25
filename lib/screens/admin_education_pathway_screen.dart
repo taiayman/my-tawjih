@@ -338,7 +338,7 @@ class _AdminEducationPathwayScreenState extends ConsumerState<AdminEducationPath
               child: university.imageUrl.isNotEmpty
                   ? Image.network(
                       university.imageUrl,
-                      height: 150,
+                      height: 110,
                       width: double.infinity,
                       fit: BoxFit.cover,
                       loadingBuilder: (context, child, loadingProgress) {
@@ -595,122 +595,141 @@ void _deleteUniversity(University university) {
   }
 
   void _showAddPathwayDialog(BuildContext context) {
-    final _formKey = GlobalKey<FormState>();
-    String _name = '';
-    String _description = '';
-    String _imageUrl = '';
+  final _formKey = GlobalKey<FormState>();
+  String _name = '';
+  String _description = '';
+  String _imageUrl = '';
 
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('إضافة مسار جديد', style: cairoBold),
-        content: Form(
-          key: _formKey,
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TextFormField(
-                  decoration: InputDecoration(labelText: 'اسم المسار', labelStyle: cairoRegular),
-                  validator: (value) => value!.isEmpty ? 'الرجاء إدخال اسم المسار' : null,
-                  onSaved: (value) => _name = value!,
+  showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: Text('إضافة مسار جديد', style: cairoBold),
+      content: Form(
+        key: _formKey,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'اسم المسار',
+                  labelStyle: cairoRegular,
                 ),
-                TextFormField(
-                  decoration: InputDecoration(labelText: 'الوصف', labelStyle: cairoRegular),
-                  validator: (value) => value!.isEmpty ? 'الرجاء إدخال وصف المسار' : null,
-                  onSaved: (value) => _description = value!,
+                style: TextStyle(color: Colors.black), // Add this line
+                validator: (value) => value!.isEmpty ? 'الرجاء إدخال اسم المسار' : null,
+                onSaved: (value) => _name = value!,
+              ),
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'الوصف',
+                  labelStyle: cairoRegular,
                 ),
-                TextFormField(
-                  decoration: InputDecoration(labelText: 'رابط الصورة', labelStyle: cairoRegular),
-                  validator: (value) => value!.isEmpty ? 'الرجاء إدخال رابط الصورة' : null,
-                  onSaved: (value) => _imageUrl = value!,
+                style: TextStyle(color: Colors.black), // Add this line
+                validator: (value) => value!.isEmpty ? 'الرجاء إدخال وصف المسار' : null,
+                onSaved: (value) => _description = value!,
+              ),
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'رابط الصورة',
+                  labelStyle: cairoRegular,
                 ),
-              ],
-            ),
+                style: TextStyle(color: Colors.black), // Add this line
+                validator: (value) => value!.isEmpty ? 'الرجاء إدخال رابط الصورة' : null,
+                onSaved: (value) => _imageUrl = value!,
+              ),
+            ],
           ),
         ),
-        actions: [
-          TextButton(
-            child: Text('إلغاء', style: cairoRegular),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-          ElevatedButton(
-            child: Text('إضافة', style: cairoSemiBold),
-            onPressed: () {
-              if (_formKey.currentState!.validate()) {
-                _formKey.currentState!.save();
-                final newPathway = EducationPathway(
-                  id: DateTime.now().millisecondsSinceEpoch.toString(),
-                  name: _name,
-                  description: _description,
-                  imageUrl: _imageUrl,
-                  specializations: [],
-                );
-                ref.read(educationPathwayProvider.notifier).addPathway(newPathway);
-                Navigator.of(context).pop();
-              }
-            },
-          ),
-        ],
       ),
-    );
-  }
-
+      actions: [
+        TextButton(
+          child: Text('إلغاء', style: cairoRegular),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        ElevatedButton(
+          child: Text('إضافة', style: cairoSemiBold),
+          onPressed: () {
+            if (_formKey.currentState!.validate()) {
+              _formKey.currentState!.save();
+              final newPathway = EducationPathway(
+                id: DateTime.now().millisecondsSinceEpoch.toString(),
+                name: _name,
+                description: _description,
+                imageUrl: _imageUrl,
+                specializations: [],
+              );
+              ref.read(educationPathwayProvider.notifier).addPathway(newPathway);
+              Navigator.of(context).pop();
+            }
+          },
+        ),
+      ],
+    ),
+  );
+}
   void _showAddSpecializationDialog(BuildContext context) {
-    final _formKey = GlobalKey<FormState>();
-    String _name = '';
-    String _description = '';
+  final _formKey = GlobalKey<FormState>();
+  String _name = '';
+  String _description = '';
 
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('إضافة تخصص جديد', style: cairoBold),
-        content: Form(
-          key: _formKey,
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TextFormField(
-                  decoration: InputDecoration(labelText: 'اسم التخصص', labelStyle: cairoRegular),
-                  validator: (value) => value!.isEmpty ? 'الرجاء إدخال اسم التخصص' : null,
-                  onSaved: (value) => _name = value!,
+  showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: Text('إضافة تخصص جديد', style: cairoBold),
+      content: Form(
+        key: _formKey,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'اسم التخصص',
+                  labelStyle: cairoRegular,
                 ),
-                TextFormField(
-                  decoration: InputDecoration(labelText: 'الوصف', labelStyle: cairoRegular),
-                  validator: (value) => value!.isEmpty ? 'الرجاء إدخال وصف التخصص' : null,
-                  onSaved: (value) => _description = value!,
+                style: TextStyle(color: Colors.black), // Set text color to black
+                validator: (value) => value!.isEmpty ? 'الرجاء إدخال اسم التخصص' : null,
+                onSaved: (value) => _name = value!,
+              ),
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'الوصف',
+                  labelStyle: cairoRegular,
                 ),
-              ],
-            ),
+                style: TextStyle(color: Colors.black), // Set text color to black
+                validator: (value) => value!.isEmpty ? 'الرجاء إدخال وصف التخصص' : null,
+                onSaved: (value) => _description = value!,
+              ),
+            ],
           ),
         ),
-        actions: [
-          TextButton(
-            child: Text('إلغاء', style: cairoRegular),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-          ElevatedButton(
-            child: Text('إضافة', style: cairoSemiBold),
-            onPressed: () {
-              if (_formKey.currentState!.validate()) {
-                _formKey.currentState!.save();
-                final newSpecialization = Specialization(
-                  id: DateTime.now().millisecondsSinceEpoch.toString(),
-                  name: _name,
-                  description: _description,
-                  universities: [],
-                );
-                _selectedPathway!.specializations.add(newSpecialization);
-                ref.read(educationPathwayProvider.notifier).updatePathway(_selectedPathway!);
-                Navigator.of(context).pop();
-              }
-            },
-          ),
-        ],
       ),
-    );
-  }
+      actions: [
+        TextButton(
+          child: Text('إلغاء', style: cairoRegular),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        ElevatedButton(
+          child: Text('إضافة', style: cairoSemiBold),
+          onPressed: () {
+            if (_formKey.currentState!.validate()) {
+              _formKey.currentState!.save();
+              final newSpecialization = Specialization(
+                id: DateTime.now().millisecondsSinceEpoch.toString(),
+                name: _name,
+                description: _description,
+                universities: [],
+              );
+              _selectedPathway!.specializations.add(newSpecialization);
+              ref.read(educationPathwayProvider.notifier).updatePathway(_selectedPathway!);
+              Navigator.of(context).pop();
+            }
+          },
+        ),
+      ],
+    ),
+  );
+}
 
   void _showAddUniversityDialog(BuildContext context) {
     Navigator.of(context).push(

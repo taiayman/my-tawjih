@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -26,6 +27,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> with SingleTickerPr
   @override
   void initState() {
     super.initState();
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
     _animationController = AnimationController(
       vsync: this,
       duration: Duration(milliseconds: 1500),
@@ -141,7 +143,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> with SingleTickerPr
           ),
           SizedBox(height: 8),
           Text(
-            'استقد من جديد لمشاهدة ما يثير اهتمامك',
+            'أكتشف مستقبلك، حقق طموحاتك',
             style: GoogleFonts.cairo(
               fontSize: 18,
               color: Colors.white.withOpacity(0.8),

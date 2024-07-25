@@ -204,6 +204,37 @@
   "Institutions": "المؤسسات",
   "Jobs": "الوظائف",
   "Guidance": "التوجيه",
-  "Select Language": "اختر اللغة"
+  "Select Language": "اختر اللغة",
+
+  "add_university": "إضافة جامعة",
+  "edit_university": "تعديل الجامعة",
+  "university_saved_successfully": "تم حفظ الجامعة بنجاح",
+  "failed_to_save_university": "فشل في حفظ الجامعة",
+  "university_preview": "معاينة الجامعة",
+  "university_name": "اسم الجامعة",
+  "university_description": "وصف الجامعة",
+  "university_website": "موقع الجامعة",
+  "add_content": "إضافة محتوى",
+  "text": "نص",
+  "image": "صورة",
+  "code": "كود",
+  "quote": "اقتباس",
+  "enter_code_here": "أدخل الكود هنا",
+  "enter_quote_here": "أدخل الاقتباس هنا",
+  "font_size": "حجم الخط",
+  "cancel": "إلغاء",
+  "apply": "تطبيق",
+  "insert_link": "إدراج رابط",
+  "enter_url": "أدخل الرابط",
+  "enter_link_text": "أدخل نص الرابط",
+  "insert": "إدراج",
+  "button_links": "روابط الأزرار",
+  "icon_links": "روابط الأيقونات",
+  "add_edit_button_link": "إضافة/تعديل رابط زر",
+  "button_text": "نص الزر",
+  "url": "الرابط",
+  "save": "حفظ",
+  "add_edit_icon_link": "إضافة/تعديل رابط أيقونة"
+
 
 }

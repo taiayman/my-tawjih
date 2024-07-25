@@ -83,7 +83,6 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen>
           bottom: TabBar(
             controller: _tabController,
             tabs: [
-              Tab(text: 'الأخبار'.tr()),
               Tab(text: 'الإعلانات'.tr()),
               Tab(text: 'المستجدات'.tr()),
               Tab(text: 'الرسائل'.tr()),
@@ -97,51 +96,12 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen>
           child: TabBarView(
             controller: _tabController,
             children: [
-              _buildNewsTab(),
               _buildAnnouncementsTab(),
               _buildMostajadatTab(),
               AdminChatTab(),
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildNewsTab() {
-    final newsAsyncValue = ref.watch(recentNewsProvider);
-
-    return newsAsyncValue.when(
-      data: (newsList) => ListView.builder(
-        itemCount: newsList.length + 1,
-        itemBuilder: (context, index) {
-          if (index == 0) {
-            return Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: ElevatedButton(
-                onPressed: () => _showAddNewsDialog(context),
-                child: Text('إضافة خبر'.tr()),
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  backgroundColor: accentColor,
-                  padding: EdgeInsets.symmetric(vertical: 12),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-              ),
-            );
-          }
-          return _buildNewsCard(newsList[index - 1]);
-        },
-      ),
-      loading: () => Center(
-        child: CircularProgressIndicator(
-          valueColor: AlwaysStoppedAnimation<Color>(primaryColor),
-        ),
-      ),
-      error: (error, stack) => Center(
-        child: Text('Error: $error', style: TextStyle(color: textColor)),
       ),
     );
   }
