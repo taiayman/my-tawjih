@@ -48,7 +48,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with SingleTickerPr
 
   void _navigateToLogin() {
     print("Attempting to navigate to login screen");
-    Future.delayed(Duration(milliseconds: 500), () {
+    Future.delayed(Duration(seconds: 3), () {  // Changed to 3 seconds
       print("Navigation delay completed, going to /signin");
       if (mounted) {
         try {
@@ -112,13 +112,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with SingleTickerPr
                       ],
                     ),
                     SizedBox(height: 10),
-                    Text(
-                      'أكتشف مستقبلك، حقق طموحاتك',
-                      style: GoogleFonts.cairo(
-                        fontSize: 16,
-                        color: Colors.black54,
-                      ),
-                    ),
+                   
                   ],
                 ),
               ),

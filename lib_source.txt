@@ -2912,7 +2912,6 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen>
           bottom: TabBar(
             controller: _tabController,
             tabs: [
-              Tab(text: 'Ø§Ù„Ø£Ø®Ø¨Ø§Ø±'.tr()),
               Tab(text: 'Ø§Ù„Ø¥Ø¹Ù„Ø§Ù†Ø§Øª'.tr()),
               Tab(text: 'Ø§Ù„Ù…Ø³ØªØ¬Ø¯Ø§Øª'.tr()),
               Tab(text: 'Ø§Ù„Ø±Ø³Ø§Ø¦Ù„'.tr()),
@@ -2926,51 +2925,12 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen>
           child: TabBarView(
             controller: _tabController,
             children: [
-              _buildNewsTab(),
               _buildAnnouncementsTab(),
               _buildMostajadatTab(),
               AdminChatTab(),
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildNewsTab() {
-    final newsAsyncValue = ref.watch(recentNewsProvider);
-
-    return newsAsyncValue.when(
-      data: (newsList) => ListView.builder(
-        itemCount: newsList.length + 1,
-        itemBuilder: (context, index) {
-          if (index == 0) {
-            return Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: ElevatedButton(
-                onPressed: () => _showAddNewsDialog(context),
-                child: Text('Ø¥Ø¶Ø§ÙØ© Ø®Ø¨Ø±'.tr()),
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  backgroundColor: accentColor,
-                  padding: EdgeInsets.symmetric(vertical: 12),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-              ),
-            );
-          }
-          return _buildNewsCard(newsList[index - 1]);
-        },
-      ),
-      loading: () => Center(
-        child: CircularProgressIndicator(
-          valueColor: AlwaysStoppedAnimation<Color>(primaryColor),
-        ),
-      ),
-      error: (error, stack) => Center(
-        child: Text('Error: $error', style: TextStyle(color: textColor)),
       ),
     );
   }
@@ -4789,7 +4749,7 @@ class _AdminEducationPathwayScreenState extends ConsumerState<AdminEducationPath
               child: university.imageUrl.isNotEmpty
                   ? Image.network(
                       university.imageUrl,
-                      height: 150,
+                      height: 110,
                       width: double.infinity,
                       fit: BoxFit.cover,
                       loadingBuilder: (context, child, loadingProgress) {
@@ -5046,122 +5006,141 @@ void _deleteUniversity(University university) {
   }
 
   void _showAddPathwayDialog(BuildContext context) {
-    final _formKey = GlobalKey<FormState>();
-    String _name = '';
-    String _description = '';
-    String _imageUrl = '';
+  final _formKey = GlobalKey<FormState>();
+  String _name = '';
+  String _description = '';
+  String _imageUrl = '';
 
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('Ø¥Ø¶Ø§ÙØ© Ù…Ø³Ø§Ø± Ø¬Ø¯ÙŠØ¯', style: cairoBold),
-        content: Form(
-          key: _formKey,
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TextFormField(
-                  decoration: InputDecoration(labelText: 'Ø§Ø³Ù… Ø§Ù„Ù…Ø³Ø§Ø±', labelStyle: cairoRegular),
-                  validator: (value) => value!.isEmpty ? 'Ø§Ù„Ø±Ø¬Ø§Ø¡ Ø¥Ø¯Ø®Ø§Ù„ Ø§Ø³Ù… Ø§Ù„Ù…Ø³Ø§Ø±' : null,
-                  onSaved: (value) => _name = value!,
+  showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: Text('Ø¥Ø¶Ø§ÙØ© Ù…Ø³Ø§Ø± Ø¬Ø¯ÙŠØ¯', style: cairoBold),
+      content: Form(
+        key: _formKey,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Ø§Ø³Ù… Ø§Ù„Ù…Ø³Ø§Ø±',
+                  labelStyle: cairoRegular,
                 ),
-                TextFormField(
-                  decoration: InputDecoration(labelText: 'Ø§Ù„ÙˆØµÙ', labelStyle: cairoRegular),
-                  validator: (value) => value!.isEmpty ? 'Ø§Ù„Ø±Ø¬Ø§Ø¡ Ø¥Ø¯Ø®Ø§Ù„ ÙˆØµÙ Ø§Ù„Ù…Ø³Ø§Ø±' : null,
-                  onSaved: (value) => _description = value!,
+                style: TextStyle(color: Colors.black), // Add this line
+                validator: (value) => value!.isEmpty ? 'Ø§Ù„Ø±Ø¬Ø§Ø¡ Ø¥Ø¯Ø®Ø§Ù„ Ø§Ø³Ù… Ø§Ù„Ù…Ø³Ø§Ø±' : null,
+                onSaved: (value) => _name = value!,
+              ),
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Ø§Ù„ÙˆØµÙ',
+                  labelStyle: cairoRegular,
                 ),
-                TextFormField(
-                  decoration: InputDecoration(labelText: 'Ø±Ø§Ø¨Ø· Ø§Ù„ØµÙˆØ±Ø©', labelStyle: cairoRegular),
-                  validator: (value) => value!.isEmpty ? 'Ø§Ù„Ø±Ø¬Ø§Ø¡ Ø¥Ø¯Ø®Ø§Ù„ Ø±Ø§Ø¨Ø· Ø§Ù„ØµÙˆØ±Ø©' : null,
-                  onSaved: (value) => _imageUrl = value!,
+                style: TextStyle(color: Colors.black), // Add this line
+                validator: (value) => value!.isEmpty ? 'Ø§Ù„Ø±Ø¬Ø§Ø¡ Ø¥Ø¯Ø®Ø§Ù„ ÙˆØµÙ Ø§Ù„Ù…Ø³Ø§Ø±' : null,
+                onSaved: (value) => _description = value!,
+              ),
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Ø±Ø§Ø¨Ø· Ø§Ù„ØµÙˆØ±Ø©',
+                  labelStyle: cairoRegular,
                 ),
-              ],
-            ),
+                style: TextStyle(color: Colors.black), // Add this line
+                validator: (value) => value!.isEmpty ? 'Ø§Ù„Ø±Ø¬Ø§Ø¡ Ø¥Ø¯Ø®Ø§Ù„ Ø±Ø§Ø¨Ø· Ø§Ù„ØµÙˆØ±Ø©' : null,
+                onSaved: (value) => _imageUrl = value!,
+              ),
+            ],
           ),
         ),
-        actions: [
-          TextButton(
-            child: Text('Ø¥Ù„ØºØ§Ø¡', style: cairoRegular),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-          ElevatedButton(
-            child: Text('Ø¥Ø¶Ø§ÙØ©', style: cairoSemiBold),
-            onPressed: () {
-              if (_formKey.currentState!.validate()) {
-                _formKey.currentState!.save();
-                final newPathway = EducationPathway(
-                  id: DateTime.now().millisecondsSinceEpoch.toString(),
-                  name: _name,
-                  description: _description,
-                  imageUrl: _imageUrl,
-                  specializations: [],
-                );
-                ref.read(educationPathwayProvider.notifier).addPathway(newPathway);
-                Navigator.of(context).pop();
-              }
-            },
-          ),
-        ],
       ),
-    );
-  }
-
+      actions: [
+        TextButton(
+          child: Text('Ø¥Ù„ØºØ§Ø¡', style: cairoRegular),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        ElevatedButton(
+          child: Text('Ø¥Ø¶Ø§ÙØ©', style: cairoSemiBold),
+          onPressed: () {
+            if (_formKey.currentState!.validate()) {
+              _formKey.currentState!.save();
+              final newPathway = EducationPathway(
+                id: DateTime.now().millisecondsSinceEpoch.toString(),
+                name: _name,
+                description: _description,
+                imageUrl: _imageUrl,
+                specializations: [],
+              );
+              ref.read(educationPathwayProvider.notifier).addPathway(newPathway);
+              Navigator.of(context).pop();
+            }
+          },
+        ),
+      ],
+    ),
+  );
+}
   void _showAddSpecializationDialog(BuildContext context) {
-    final _formKey = GlobalKey<FormState>();
-    String _name = '';
-    String _description = '';
+  final _formKey = GlobalKey<FormState>();
+  String _name = '';
+  String _description = '';
 
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('Ø¥Ø¶Ø§ÙØ© ØªØ®ØµØµ Ø¬Ø¯ÙŠØ¯', style: cairoBold),
-        content: Form(
-          key: _formKey,
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TextFormField(
-                  decoration: InputDecoration(labelText: 'Ø§Ø³Ù… Ø§Ù„ØªØ®ØµØµ', labelStyle: cairoRegular),
-                  validator: (value) => value!.isEmpty ? 'Ø§Ù„Ø±Ø¬Ø§Ø¡ Ø¥Ø¯Ø®Ø§Ù„ Ø§Ø³Ù… Ø§Ù„ØªØ®ØµØµ' : null,
-                  onSaved: (value) => _name = value!,
+  showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: Text('Ø¥Ø¶Ø§ÙØ© ØªØ®ØµØµ Ø¬Ø¯ÙŠØ¯', style: cairoBold),
+      content: Form(
+        key: _formKey,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Ø§Ø³Ù… Ø§Ù„ØªØ®ØµØµ',
+                  labelStyle: cairoRegular,
                 ),
-                TextFormField(
-                  decoration: InputDecoration(labelText: 'Ø§Ù„ÙˆØµÙ', labelStyle: cairoRegular),
-                  validator: (value) => value!.isEmpty ? 'Ø§Ù„Ø±Ø¬Ø§Ø¡ Ø¥Ø¯Ø®Ø§Ù„ ÙˆØµÙ Ø§Ù„ØªØ®ØµØµ' : null,
-                  onSaved: (value) => _description = value!,
+                style: TextStyle(color: Colors.black), // Set text color to black
+                validator: (value) => value!.isEmpty ? 'Ø§Ù„Ø±Ø¬Ø§Ø¡ Ø¥Ø¯Ø®Ø§Ù„ Ø§Ø³Ù… Ø§Ù„ØªØ®ØµØµ' : null,
+                onSaved: (value) => _name = value!,
+              ),
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Ø§Ù„ÙˆØµÙ',
+                  labelStyle: cairoRegular,
                 ),
-              ],
-            ),
+                style: TextStyle(color: Colors.black), // Set text color to black
+                validator: (value) => value!.isEmpty ? 'Ø§Ù„Ø±Ø¬Ø§Ø¡ Ø¥Ø¯Ø®Ø§Ù„ ÙˆØµÙ Ø§Ù„ØªØ®ØµØµ' : null,
+                onSaved: (value) => _description = value!,
+              ),
+            ],
           ),
         ),
-        actions: [
-          TextButton(
-            child: Text('Ø¥Ù„ØºØ§Ø¡', style: cairoRegular),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-          ElevatedButton(
-            child: Text('Ø¥Ø¶Ø§ÙØ©', style: cairoSemiBold),
-            onPressed: () {
-              if (_formKey.currentState!.validate()) {
-                _formKey.currentState!.save();
-                final newSpecialization = Specialization(
-                  id: DateTime.now().millisecondsSinceEpoch.toString(),
-                  name: _name,
-                  description: _description,
-                  universities: [],
-                );
-                _selectedPathway!.specializations.add(newSpecialization);
-                ref.read(educationPathwayProvider.notifier).updatePathway(_selectedPathway!);
-                Navigator.of(context).pop();
-              }
-            },
-          ),
-        ],
       ),
-    );
-  }
+      actions: [
+        TextButton(
+          child: Text('Ø¥Ù„ØºØ§Ø¡', style: cairoRegular),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        ElevatedButton(
+          child: Text('Ø¥Ø¶Ø§ÙØ©', style: cairoSemiBold),
+          onPressed: () {
+            if (_formKey.currentState!.validate()) {
+              _formKey.currentState!.save();
+              final newSpecialization = Specialization(
+                id: DateTime.now().millisecondsSinceEpoch.toString(),
+                name: _name,
+                description: _description,
+                universities: [],
+              );
+              _selectedPathway!.specializations.add(newSpecialization);
+              ref.read(educationPathwayProvider.notifier).updatePathway(_selectedPathway!);
+              Navigator.of(context).pop();
+            }
+          },
+        ),
+      ],
+    ),
+  );
+}
 
   void _showAddUniversityDialog(BuildContext context) {
     Navigator.of(context).push(
@@ -7387,7 +7366,7 @@ class _GuidanceScreenState extends ConsumerState<GuidanceScreen> with SingleTick
     );
   }
 
-  Widget _buildSpecializationsView(EducationPathway pathway) {
+Widget _buildSpecializationsView(EducationPathway pathway) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.stretch,
     children: [
@@ -7408,9 +7387,11 @@ class _GuidanceScreenState extends ConsumerState<GuidanceScreen> with SingleTick
                     child: Column(
                       children: [
                         _buildSpecializationCard(specialization),
-                        SizedBox(height: 16),
-                        // Display universities for this specialization
+                        SizedBox(height: 8),
+                        FadeInConnectionLine(height: 40),
+                        SizedBox(height: 8),
                         _buildUniversitiesSection(specialization),
+                        SizedBox(height: 24),
                       ],
                     ),
                   ),
@@ -7423,6 +7404,8 @@ class _GuidanceScreenState extends ConsumerState<GuidanceScreen> with SingleTick
     ],
   );
 }
+
+
 Widget _buildUniversitiesSection(Specialization specialization) {
   return Card(
     elevation: 2,
@@ -7433,25 +7416,16 @@ Widget _buildUniversitiesSection(Specialization specialization) {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Ø§Ù„Ø¬Ø§Ù…Ø¹Ø§Øª Ø§Ù„ØªÙŠ ØªÙ‚Ø¯Ù… ${specialization.name}',
-            style: GoogleFonts.cairo(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: Colors.blue.shade800,
-            ),
-          ),
-          SizedBox(height: 16),
-          AnimationLimiter(
+            AnimationLimiter(
             child: GridView.builder(
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 0.8,
-                crossAxisSpacing: 12,
-                mainAxisSpacing: 12,
-              ),
+  crossAxisCount: 2,
+  childAspectRatio: 0.7, // Adjusted to account for the taller cards
+  crossAxisSpacing: 12,
+  mainAxisSpacing: 12,
+),
               itemCount: specialization.universities.length,
               itemBuilder: (context, index) {
                 return AnimationConfiguration.staggeredGrid(
@@ -7478,72 +7452,84 @@ Widget _buildEnhancedUniversityCard(University university) {
     elevation: 0,
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
     color: Colors.white,
-    child: InkWell(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => UniversityDetailsScreen(university: university),
-          ),
-        );
-      },
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Expanded(
-            flex: 3,
-            child: ClipRRect(
-              borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
-              child: university.imageUrl.isNotEmpty
-                  ? Image.network(
-                      university.imageUrl,
-                      fit: BoxFit.cover,
-                      loadingBuilder: (context, child, loadingProgress) {
-                        if (loadingProgress == null) return child;
-                        return Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      },
-                    )
-                  : Container(
-                      color: Colors.grey[300],
-                      child: Icon(Icons.school, size: 50, color: Colors.grey[600]),
-                    ),
+    child: Container(
+      height: 350, // Increased height to 350 logical pixels
+      width: 200,  // Added a fixed width to make the card larger
+      child: InkWell(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => UniversityDetailsScreen(university: university),
             ),
-          ),
-          Expanded(
-            flex: 2,
-            child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    university.name,
-                    style: cairoSemiBold.copyWith(fontSize: 16, color: Colors.black87),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  Spacer(),
-                  Row(
-                    children: [
-                      Icon(Icons.link, size: 16, color: Colors.blue.shade600),
-                      SizedBox(width: 4),
-                      Expanded(
-                        child: Text(
-                          university.website,
-                          style: cairoRegular.copyWith(fontSize: 12, color: Colors.blue.shade600),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
+          );
+        },
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Expanded(
+              flex: 5, // Increased flex for the image area
+              child: ClipRRect(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
+                child: university.imageUrl.isNotEmpty
+                    ? Image.network(
+                        university.imageUrl,
+                        fit: BoxFit.cover,
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        },
+                      )
+                    : Container(
+                        color: Colors.grey[300],
+                        child: Icon(Icons.school, size: 60, color: Colors.grey[600]),
                       ),
-                    ],
-                  ),
-                ],
               ),
             ),
-          ),
-        ],
+            Expanded(
+              flex: 4, // Increased flex for the text area
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      university.name,
+                      style: cairoSemiBold.copyWith(fontSize: 20, color: Colors.black87),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    SizedBox(height: 8), // Added space between name and link
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Icon(Icons.link, size: 20, color: Colors.blue.shade600),
+                              SizedBox(width: 4),
+                              Expanded(
+                                child: Text(
+                                  university.website,
+                                  style: cairoRegular.copyWith(fontSize: 14, color: Colors.blue.shade600),
+                                  maxLines: 2, // Increased to 2 lines
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     ),
   );
@@ -8288,7 +8274,83 @@ ${widget.university.description}
 }
 
 
+class FadeInConnectionLine extends StatefulWidget {
+  final double height;
+
+  const FadeInConnectionLine({Key? key, required this.height}) : super(key: key);
+
+  @override
+  _FadeInConnectionLineState createState() => _FadeInConnectionLineState();
+}
+
+class _FadeInConnectionLineState extends State<FadeInConnectionLine> with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _fadeAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 800),
+      vsync: this,
+    );
+    _fadeAnimation = Tween<double>(begin: 0, end: 1).animate(CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeInOut,
+    ));
+    _controller.forward();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FadeTransition(
+      opacity: _fadeAnimation,
+      child: CustomPaint(
+        size: Size(double.infinity, widget.height),
+        painter: ConnectionLinePainter(),
+      ),
+    );
+  }
+}
+
+class ConnectionLinePainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.blue.shade300
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.5;
+
+    final path = Path();
+    path.moveTo(size.width / 2, 0);
+    path.lineTo(size.width / 2, size.height * 0.6);
+    path.lineTo(size.width * 0.25, size.height);
+    path.moveTo(size.width / 2, size.height * 0.6);
+    path.lineTo(size.width * 0.75, size.height);
+
+    canvas.drawPath(path, paint);
+
+    final circlePaint = Paint()
+      ..color = Colors.blue.shade500
+      ..style = PaintingStyle.fill;
+
+    canvas.drawCircle(Offset(size.width * 0.25, size.height), 3, circlePaint);
+    canvas.drawCircle(Offset(size.width * 0.75, size.height), 3, circlePaint);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) => false;
+}
+
+
     File: C:\Users\LENOVO\Desktop\taleb\lib\screens\home_screen.dart
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -8307,25 +8369,24 @@ import 'package:taleb_edu_platform/screens/institutions_screen.dart';
 import 'package:taleb_edu_platform/screens/jobs_screen.dart';
 import 'package:taleb_edu_platform/screens/guidance_screen.dart';
 import 'package:taleb_edu_platform/screens/notifications_screen.dart';
+import 'package:taleb_edu_platform/screens/web_view_screen.dart';
 import 'package:taleb_edu_platform/widgets/announcement_carousel.dart';
 import 'package:taleb_edu_platform/widgets/custom_bottom_navigation.dart';
-import 'package:taleb_edu_platform/providers/announcement_provider.dart'
-    as announcement_provider;
+import 'package:taleb_edu_platform/providers/announcement_provider.dart' as announcement_provider;
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends ConsumerState<HomeScreen>
-    with SingleTickerProviderStateMixin {
+class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
   int _currentIndex = 0;
   late NotificationsScreen _notificationsScreen;
-
 
   @override
   void initState() {
@@ -8339,18 +8400,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
     );
     _animationController.forward();
     _setupNotifications();
-     _notificationsScreen = NotificationsScreen();
-
+    _notificationsScreen = NotificationsScreen();
   }
 
   void _setupNotifications() async {
-    // Check for initial message (app opened from terminated state)
     RemoteMessage? initialMessage = await FirebaseMessaging.instance.getInitialMessage();
     if (initialMessage != null) {
       _handleInitialMessage(initialMessage);
     }
 
-    // Listen for foreground messages
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       print("Received foreground message: ${message.messageId}");
     });
@@ -8363,13 +8421,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
 
   void _handleInitialMessage(RemoteMessage message) {
     print("Handling initial message: ${message.messageId}");
-
   }
 
   void _handleBackgroundMessage(RemoteMessage message) {
     print("Handling background message: ${message.messageId}");
-    // Navigate to a specific screen or perform an action based on the message
-    // Similar to _handleInitialMessage
   }
 
   @override
@@ -8378,10 +8433,224 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
     super.dispose();
   }
 
+
+void _showAnnouncementDetails(Announcement announcement) {
+  showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    backgroundColor: Colors.transparent,
+    builder: (context) => DraggableScrollableSheet(
+      initialChildSize: 0.6,
+      minChildSize: 0.3,
+      maxChildSize: 0.9,
+      builder: (_, controller) => Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        ),
+        child: Column(
+          children: [
+            SizedBox(height: 8),
+            Container(
+              width: 40,
+              height: 4,
+              decoration: BoxDecoration(
+                color: Colors.grey[300],
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+            Expanded(
+              child: SingleChildScrollView(
+                controller: controller,
+                child: Padding(
+                  padding: const EdgeInsets.all(24.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        announcement.title,
+                        style: GoogleFonts.cairo(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                      ),
+                      SizedBox(height: 8),
+                      Text(
+                        DateFormat('dd/MM/yyyy').format(announcement.date),
+                        style: GoogleFonts.cairo(
+                          fontSize: 16,
+                          color: Colors.grey[600],
+                        ),
+                      ),
+                      SizedBox(height: 16),
+                      Row(
+                        children: [
+                          _buildEducationLevelChip(announcement.category),
+                          SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                              announcement.schoolName,
+                              style: GoogleFonts.cairo(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.black87,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 24),
+                      Text(
+                        'Description'.tr(),
+                        style: GoogleFonts.cairo(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                      ),
+                      SizedBox(height: 8),
+                      _buildRichTextWithLinks(announcement.description),
+                      SizedBox(height: 24),
+                      Text(
+                        'Full Details'.tr(),
+                        style: GoogleFonts.cairo(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                      ),
+                      SizedBox(height: 8),
+                      _buildRichTextWithLinks(announcement.fullText),
+                      SizedBox(height: 24),
+                      if (announcement.officialDocumentUrl != null)
+                        _buildActionButton(
+                          'View Official Document'.tr(),
+                          announcement.officialDocumentUrl!,
+                          Icons.description,
+                        ),
+                      if (announcement.registrationLink != null)
+                        _buildActionButton(
+                          'Register'.tr(),
+                          announcement.registrationLink!,
+                          Icons.app_registration,
+                        ),
+                      if (announcement.applicationDetails != null)
+                        ..._buildApplicationDetails(announcement.applicationDetails!),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
+}
+
+Widget _buildRichTextWithLinks(String text) {
+  List<InlineSpan> textSpans = [];
+  RegExp exp = RegExp(r'(?:(?:https?|ftp):\/\/)?[\w/\-?=%.]+\.[\w/\-?=%.]+');
+  Iterable<RegExpMatch> matches = exp.allMatches(text);
+  int start = 0;
+
+  for (RegExpMatch match in matches) {
+    if (match.start > start) {
+      textSpans.add(TextSpan(
+        text: text.substring(start, match.start),
+        style: GoogleFonts.cairo(fontSize: 16, color: Colors.black87),
+      ));
+    }
+    textSpans.add(TextSpan(
+      text: match.group(0),
+      style: GoogleFonts.cairo(fontSize: 16, color: Colors.blue, decoration: TextDecoration.underline),
+      recognizer: TapGestureRecognizer()
+        ..onTap = () => _launchURL(match.group(0)!),
+    ));
+    start = match.end;
+  }
+
+  if (start < text.length) {
+    textSpans.add(TextSpan(
+      text: text.substring(start),
+      style: GoogleFonts.cairo(fontSize: 16, color: Colors.black87),
+    ));
+  }
+
+  return RichText(text: TextSpan(children: textSpans));
+}
+
+Widget _buildActionButton(String label, String url, IconData icon) {
+  return Padding(
+    padding: const EdgeInsets.only(bottom: 16.0),
+    child: ElevatedButton.icon(
+      onPressed: () => _launchURL(url),
+      icon: Icon(icon),
+      label: Text(label),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Theme.of(context).primaryColor,
+        padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+        textStyle: GoogleFonts.cairo(fontSize: 16),
+      ),
+    ),
+  );
+}
+
+List<Widget> _buildApplicationDetails(Map<String, dynamic> details) {
+  return [
+    SizedBox(height: 16),
+    Text(
+      'Application Details'.tr(),
+      style: GoogleFonts.cairo(
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+        color: Colors.black,
+      ),
+    ),
+    SizedBox(height: 8),
+    ...details.entries.map((entry) => Padding(
+      padding: const EdgeInsets.only(bottom: 8.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            '${entry.key}: ',
+            style: GoogleFonts.cairo(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: Colors.black87,
+            ),
+          ),
+          Expanded(
+            child: Text(
+              entry.value.toString(),
+              style: GoogleFonts.cairo(
+                fontSize: 16,
+                color: Colors.black87,
+              ),
+            ),
+          ),
+        ],
+      ),
+    )).toList(),
+  ];
+}
+
+void _launchURL(String url) {
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => WebViewScreen(url: url),
+    ),
+  );
+}
+
+
   @override
   Widget build(BuildContext context) {
-    final announcementsAsyncValue =
-        ref.watch(announcement_provider.announcementsProvider);
+    final announcementsAsyncValue = ref.watch(announcement_provider.announcementsProvider);
 
     return Scaffold(
       backgroundColor: Colors.grey[100],
@@ -8403,8 +8672,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
     );
   }
 
-  Widget _buildHomeContent(
-      AsyncValue<List<Announcement>> announcementsAsyncValue) {
+  Widget _buildHomeContent(AsyncValue<List<Announcement>> announcementsAsyncValue) {
     return CustomScrollView(
       slivers: [
         _buildSliverAppBar(context),
@@ -8473,7 +8741,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
               SizedBox(width: 4),
               GestureDetector(
                 onTap: () {
-
                 },
                 child: Text(
                   'Taleb Educational Platform'.tr(),
@@ -8489,14 +8756,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
           Row(
             children: [
               IconButton(
-          icon: Icon(Icons.notifications_none, color: Colors.black),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => _notificationsScreen),
-            );
-          },
-        ),
+                icon: Icon(Icons.notifications_none, color: Colors.black),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => _notificationsScreen),
+                  );
+                },
+              ),
               IconButton(
                 icon: Icon(Icons.language, color: Colors.black),
                 onPressed: () {
@@ -8531,15 +8798,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
     );
   }
 
-  Widget _buildAnnouncementCarousel(
-      AsyncValue<List<Announcement>> announcementsAsyncValue) {
+  Widget _buildAnnouncementCarousel(AsyncValue<List<Announcement>> announcementsAsyncValue) {
     return SizedBox(
       height: 300,
       child: announcementsAsyncValue.when(
-        data: (announcements) => AnnouncementCarousel(announcements: announcements),
+        data: (announcements) => AnnouncementCarousel(
+          announcements: announcements,
+          onAnnouncementTap: _showAnnouncementDetails,
+        ),
         loading: () => Center(child: CircularProgressIndicator()),
-        error: (_, __) =>
-            Center(child: Text('error_loading_announcements'.tr())),
+        error: (_, __) => Center(child: Text('error_loading_announcements'.tr())),
       ),
     );
   }
@@ -8578,8 +8846,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => AdminEducationPathwayScreen()),
+                        MaterialPageRoute(builder: (context) => AdminEducationPathwayScreen()),
                       );
                     },
                     style: ElevatedButton.styleFrom(
@@ -8598,8 +8865,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => AdminDashboardScreen()),
+                        MaterialPageRoute(builder: (context) => AdminDashboardScreen()),
                       );
                     },
                     style: ElevatedButton.styleFrom(
@@ -8607,11 +8873,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                       padding: EdgeInsets.symmetric(vertical: 12),
                       textStyle: TextStyle(fontSize: 16),
                     ),
-                    child: Text('Ù„ÙˆØ­Ø© ØªØ­ÙƒÙ… Ø§Ù„Ø£Ø¯Ù…Ù†'.tr()),
+                    child: Text('Ù„ÙˆØ­Ø© ØªØ­ÙƒÙ…'.tr()),
                   ),
                 ),
               ),
-
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -8619,8 +8884,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => AdminNotificationScreen()),
+                        MaterialPageRoute(builder: (context) => AdminNotificationScreen()),
                       );
                     },
                     style: ElevatedButton.styleFrom(
@@ -8682,12 +8946,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   }
 
   Widget _buildCategoryItem(
-      IconData icon,
-      String title,
-      Widget screen,
-      Color primaryColor,
-      Color accentColor,
-      double width) {
+    IconData icon,
+    String title,
+    Widget screen,
+    Color primaryColor,
+    Color accentColor,
+    double width
+  ) {
     return Container(
       width: width,
       decoration: BoxDecoration(
@@ -8801,6 +9066,40 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                 color: Theme.of(context).primaryColor,
               ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildEducationLevelChip(String category) {
+    Color chipColor;
+    String label;
+    switch (category) {
+      case 'bac':
+        chipColor = Colors.green;
+        label = 'Ø¨Ø§Ùƒ';
+        break;
+      case 'bac+2':
+        chipColor = Colors.blue;
+        label = 'Ø¨Ø§Ùƒ+2';
+        break;
+      default:
+        chipColor = Colors.orange;
+        label = category;
+    }
+
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(
+        color: chipColor,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Text(
+        label,
+        style: GoogleFonts.cairo(
+          fontSize: 12,
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
         ),
       ),
     );
@@ -9738,6 +10037,7 @@ class _MessageScreenState extends ConsumerState<MessageScreen> {
       ),
     );
   }
+  
 }
 
 
@@ -12209,6 +12509,7 @@ import 'package:intl/intl.dart';
 import 'package:taleb_edu_platform/models/mostajadat_modal.dart';
 import 'package:taleb_edu_platform/models/institution_model.dart';
 import 'package:taleb_edu_platform/providers/mostajadat_provider.dart';
+import 'package:taleb_edu_platform/screens/guidance_screen.dart';
 import 'package:taleb_edu_platform/screens/mostajadat_details_screen.dart';
 import 'package:taleb_edu_platform/screens/admin_dashboard.dart';
 import 'package:taleb_edu_platform/screens/institution_details_screen.dart';
@@ -12227,6 +12528,10 @@ class MostajadatScreen extends ConsumerStatefulWidget {
 class _MostajadatScreenState extends ConsumerState<MostajadatScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+    final TextStyle cairoBold = GoogleFonts.cairo(fontWeight: FontWeight.bold);
+  final TextStyle cairoSemiBold = GoogleFonts.cairo(fontWeight: FontWeight.w600);
+  final TextStyle cairoRegular = GoogleFonts.cairo(fontWeight: FontWeight.normal);
+
   final Map<String, String> categoryMap = {
     'institutions': 'institutions_label',
     'jobs': 'jobs_label',
@@ -12470,7 +12775,7 @@ class _MostajadatScreenState extends ConsumerState<MostajadatScreen>
           }
           return Stack(
             children: [
-              _pathwayStack.lastOrNull ?? Container(),
+              _pathwayStack.isNotEmpty ? _pathwayStack.last : Container(),
               if (_pathwayStack.length > 1)
                 Positioned(
                   top: 16,
@@ -12520,7 +12825,7 @@ class _MostajadatScreenState extends ConsumerState<MostajadatScreen>
                   child: SlideAnimation(
                     verticalOffset: 50.0,
                     child: FadeInAnimation(
-                      child: _buildPathwayCard(context, ref, pathways[index]),
+                      child: _buildPathwayCard(pathways[index]),
                     ),
                   ),
                 );
@@ -12532,10 +12837,7 @@ class _MostajadatScreenState extends ConsumerState<MostajadatScreen>
     );
   }
 
-  Widget _buildPathwayCard(BuildContext context, WidgetRef ref, EducationPathway pathway) {
-    final TextStyle cairoBold = GoogleFonts.cairo(fontWeight: FontWeight.bold);
-    final TextStyle cairoSemiBold = GoogleFonts.cairo(fontWeight: FontWeight.w600);
-    final TextStyle cairoRegular = GoogleFonts.cairo(fontWeight: FontWeight.normal);
+  Widget _buildPathwayCard(EducationPathway pathway) {
     return Card(
       elevation: 0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
@@ -12545,7 +12847,7 @@ class _MostajadatScreenState extends ConsumerState<MostajadatScreen>
         onTap: () {
           setState(() {
             _selectedPathway = pathway;
-            _pathwayStack.add(_buildSpecializationsView(context, ref, pathway));
+            _pathwayStack.add(_buildSpecializationsView(pathway));
           });
         },
         child: Padding(
@@ -12588,37 +12890,173 @@ class _MostajadatScreenState extends ConsumerState<MostajadatScreen>
     );
   }
 
-  Widget _buildSpecializationsView(BuildContext context, WidgetRef ref, EducationPathway pathway) {
-    final TextStyle cairoBold = GoogleFonts.cairo(fontWeight: FontWeight.bold);
-    final TextStyle cairoSemiBold = GoogleFonts.cairo(fontWeight: FontWeight.w600);
-    final TextStyle cairoRegular = GoogleFonts.cairo(fontWeight: FontWeight.normal);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        _buildSectionHeader('ØªØ®ØµØµØ§Øª ${pathway.name}'),
-        Expanded(
-          child: AnimationLimiter(
-            child: ListView.builder(
-              padding: EdgeInsets.all(16),
-              itemCount: pathway.specializations.length,
+Widget _buildSpecializationsView(EducationPathway pathway) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: [
+      _buildSectionHeader('ØªØ®ØµØµØ§Øª ${pathway.name}'),
+      Expanded(
+        child: AnimationLimiter(
+          child: ListView.builder(
+            padding: EdgeInsets.all(16),
+            itemCount: pathway.specializations.length,
+            itemBuilder: (context, index) {
+              final specialization = pathway.specializations[index];
+              return AnimationConfiguration.staggeredList(
+                position: index,
+                duration: const Duration(milliseconds: 375),
+                child: SlideAnimation(
+                  verticalOffset: 50.0,
+                  child: FadeInAnimation(
+                    child: Column(
+                      children: [
+                        _buildSpecializationCard(context, specialization),
+                        SizedBox(height: 8),
+                        FadeInConnectionLine(height: 40),
+                        SizedBox(height: 8),
+                        _buildUniversitiesSection(specialization),
+                        SizedBox(height: 24),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+      ),
+    ],
+  );
+}
+
+Widget _buildUniversitiesSection(Specialization specialization) {
+  return Card(
+    elevation: 2,
+    margin: EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+    child: Padding(
+      padding: EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+            AnimationLimiter(
+            child: GridView.builder(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+  crossAxisCount: 2,
+  childAspectRatio: 0.7, // Adjusted to account for the taller cards
+  crossAxisSpacing: 12,
+  mainAxisSpacing: 12,
+),
+              itemCount: specialization.universities.length,
               itemBuilder: (context, index) {
-                return AnimationConfiguration.staggeredList(
+                return AnimationConfiguration.staggeredGrid(
                   position: index,
-                  duration:                 const Duration(milliseconds: 375),
-                  child: SlideAnimation(
-                    verticalOffset: 50.0,
+                  duration: const Duration(milliseconds: 375),
+                  columnCount: 2,
+                  child: ScaleAnimation(
                     child: FadeInAnimation(
-                      child: _buildSpecializationCard(context, pathway.specializations[index]),
+                      child: _buildEnhancedUniversityCard(specialization.universities[index]),
                     ),
                   ),
                 );
               },
             ),
           ),
+        ],
+      ),
+    ),
+  );
+}
+
+Widget _buildEnhancedUniversityCard(University university) {
+  return Card(
+    elevation: 0,
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+    color: Colors.white,
+    child: Container(
+      height: 350, // Increased height to 350 logical pixels
+      width: 200,  // Added a fixed width to make the card larger
+      child: InkWell(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => UniversityDetailsScreen(university: university),
+            ),
+          );
+        },
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Expanded(
+              flex: 5, // Increased flex for the image area
+              child: ClipRRect(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
+                child: university.imageUrl.isNotEmpty
+                    ? Image.network(
+                        university.imageUrl,
+                        fit: BoxFit.cover,
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        },
+                      )
+                    : Container(
+                        color: Colors.grey[300],
+                        child: Icon(Icons.school, size: 60, color: Colors.grey[600]),
+                      ),
+              ),
+            ),
+            Expanded(
+              flex: 4, // Increased flex for the text area
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      university.name,
+                      style: cairoSemiBold.copyWith(fontSize: 20, color: Colors.black87),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    SizedBox(height: 8), // Added space between name and link
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Icon(Icons.link, size: 20, color: Colors.blue.shade600),
+                              SizedBox(width: 4),
+                              Expanded(
+                                child: Text(
+                                  university.website,
+                                  style: cairoRegular.copyWith(fontSize: 14, color: Colors.blue.shade600),
+                                  maxLines: 2, // Increased to 2 lines
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
-      ],
-    );
-  }
+      ),
+    ),
+  );
+}
 
   Widget _buildSpecializationCard(BuildContext context, Specialization specialization) {
     final TextStyle cairoBold = GoogleFonts.cairo(fontWeight: FontWeight.bold);
@@ -12721,7 +13159,12 @@ class _MostajadatScreenState extends ConsumerState<MostajadatScreen>
       color: Colors.white,
       child: InkWell(
         onTap: () {
-          // Handle university tap
+           Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => UniversityDetailsScreen(university: university),
+            ),
+          );
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -13736,6 +14179,7 @@ class SchoolDetailScreen extends StatelessWidget {
 
     File: C:\Users\LENOVO\Desktop\taleb\lib\screens\signin_screen.dart
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -13763,6 +14207,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> with SingleTickerPr
   @override
   void initState() {
     super.initState();
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
     _animationController = AnimationController(
       vsync: this,
       duration: Duration(milliseconds: 1500),
@@ -13878,7 +14323,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> with SingleTickerPr
           ),
           SizedBox(height: 8),
           Text(
-            'Ø§Ø³ØªÙ‚Ø¯ Ù…Ù† Ø¬Ø¯ÙŠØ¯ Ù„Ù…Ø´Ø§Ù‡Ø¯Ø© Ù…Ø§ ÙŠØ«ÙŠØ± Ø§Ù‡ØªÙ…Ø§Ù…Ùƒ',
+            'Ø£ÙƒØªØ´Ù Ù…Ø³ØªÙ‚Ø¨Ù„ÙƒØŒ Ø­Ù‚Ù‚ Ø·Ù…ÙˆØ­Ø§ØªÙƒ',
             style: GoogleFonts.cairo(
               fontSize: 18,
               color: Colors.white.withOpacity(0.8),
@@ -14868,9 +15313,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with SingleTickerPr
   void _checkForInitialMessage() async {
     RemoteMessage? initialMessage = await FirebaseMessaging.instance.getInitialMessage();
     if (initialMessage != null) {
-      // Handle the initial message, e.g., navigate to a specific screen
       print("Initial message received: ${initialMessage.messageId}");
-      // You can add logic here to navigate to a specific screen based on the message
     }
     _navigateToLogin();
   }
@@ -14929,6 +15372,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with SingleTickerPr
                           height: 40,
                           fit: BoxFit.contain,
                         ),
+                        SizedBox(width: context.locale.languageCode == 'ar' ? 16 : 8),
                         Text(
                           'Taleb Educational Platform'.tr(),
                           style: GoogleFonts.cairo(
@@ -14937,7 +15381,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with SingleTickerPr
                             fontSize: 40,
                           ),
                         ),
-
                       ],
                     ),
                     SizedBox(height: 10),
@@ -15052,7 +15495,7 @@ class _SupportScreenState extends ConsumerState<SupportScreen> with WidgetsBindi
   }
 
   Future<void> _registerDeviceToken() async {
-
+    // Implement device token registration logic here
   }
 
   void _setupConnectivity() {
@@ -15092,6 +15535,7 @@ class _SupportScreenState extends ConsumerState<SupportScreen> with WidgetsBindi
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
+      // Implement any necessary logic when the app is resumed
     }
   }
 
@@ -15107,7 +15551,7 @@ class _SupportScreenState extends ConsumerState<SupportScreen> with WidgetsBindi
         if (change.type == DocumentChangeType.added) {
           final newMessage = change.doc.data() as Map<String, dynamic>;
           final messageContent = newMessage['content'] as String;
-        
+          // Implement any necessary logic for new messages
         }
       }
     });
@@ -15121,13 +15565,19 @@ class _SupportScreenState extends ConsumerState<SupportScreen> with WidgetsBindi
         backgroundColor: Color(0xFF2196F3),
         title: Text(
           'support_chat'.tr(),
-          style: GoogleFonts.cairo(
+          style: GoogleFonts.poppins(
             fontWeight: FontWeight.bold,
             color: Color(0xFFFFFFFF),
+            fontSize: 20,
           ),
         ),
         centerTitle: true,
         elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            bottom: Radius.circular(20),
+          ),
+        ),
         actions: [
           IconButton(
             icon: Icon(_isOnline ? Icons.wifi : Icons.wifi_off),
@@ -15145,7 +15595,7 @@ class _SupportScreenState extends ConsumerState<SupportScreen> with WidgetsBindi
               padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
               child: Text(
                 'offline_message'.tr(),
-                style: GoogleFonts.cairo(color: Colors.white),
+                style: GoogleFonts.poppins(color: Colors.white),
               ),
             ),
           Expanded(
@@ -15177,7 +15627,7 @@ class _SupportScreenState extends ConsumerState<SupportScreen> with WidgetsBindi
             controller: _scrollController,
             reverse: true,
             itemCount: messages.length,
-            padding: EdgeInsets.symmetric(vertical: 16),
+            padding: EdgeInsets.symmetric(vertical: 16, horizontal: 8),
             itemBuilder: (context, index) {
               final messageData = messages[index].data() as Map<String, dynamic>;
               return _buildMessageBubble(messageData);
@@ -15196,26 +15646,16 @@ class _SupportScreenState extends ConsumerState<SupportScreen> with WidgetsBindi
     return Align(
       alignment: isUserMessage ? Alignment.centerRight : Alignment.centerLeft,
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         decoration: BoxDecoration(
-          color: isUserMessage ? Color(0xFF2196F3) : Color(0xFFE0E0E0),
-          borderRadius: isUserMessage
-              ? BorderRadius.only(
-                  topLeft: Radius.circular(20),
-                  topRight: Radius.circular(20),
-                  bottomLeft: Radius.circular(20),
-                )
-              : BorderRadius.only(
-                  topLeft: Radius.circular(20),
-                  topRight: Radius.circular(20),
-                  bottomRight: Radius.circular(20),
-                ),
+          color: isUserMessage ? Color(0xFF2196F3) : Color(0xFFFFFFFF),
+          borderRadius: BorderRadius.circular(20),
           boxShadow: [
             BoxShadow(
               color: Color(0x1A000000),
               blurRadius: 4,
-              offset: Offset(2, 2),
+              offset: Offset(0, 2),
             ),
           ],
         ),
@@ -15224,7 +15664,7 @@ class _SupportScreenState extends ConsumerState<SupportScreen> with WidgetsBindi
           children: [
             Text(
               messageContent,
-              style: GoogleFonts.cairo(
+              style: GoogleFonts.poppins(
                 fontSize: 16,
                 color: isUserMessage ? Color(0xFFFFFFFF) : Color(0xFF212121),
               ),
@@ -15234,7 +15674,7 @@ class _SupportScreenState extends ConsumerState<SupportScreen> with WidgetsBindi
               timestamp != null
                   ? DateFormat('HH:mm').format(timestamp.toDate())
                   : 'time_not_available'.tr(),
-              style: GoogleFonts.cairo(
+              style: GoogleFonts.poppins(
                 fontSize: 12,
                 color: isUserMessage ? Color(0xB3FFFFFF) : Color(0xFF757575),
               ),
@@ -15254,12 +15694,25 @@ class _SupportScreenState extends ConsumerState<SupportScreen> with WidgetsBindi
           if (isAdminTyping) {
             return Container(
               padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-              child: Text(
-                'admin_typing'.tr(),
-                style: GoogleFonts.cairo(
-                  color: Color(0xFF757575),
-                  fontStyle: FontStyle.italic,
-                ),
+              child: Row(
+                children: [
+                  Text(
+                    'admin_typing'.tr(),
+                    style: GoogleFonts.poppins(
+                      color: Color(0xFF757575),
+                      fontStyle: FontStyle.italic,
+                    ),
+                  ),
+                  SizedBox(width: 8),
+                  SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF2196F3)),
+                    ),
+                  ),
+                ],
               ),
             );
           }
@@ -15287,19 +15740,26 @@ class _SupportScreenState extends ConsumerState<SupportScreen> with WidgetsBindi
           Expanded(
             child: TextField(
               controller: _messageController,
-              style: GoogleFonts.cairo(color: Color(0xFF212121)),
+              style: GoogleFonts.poppins(color: Color(0xFF212121)),
               decoration: InputDecoration(
                 hintText: 'type_message'.tr(),
-                hintStyle: GoogleFonts.cairo(color: Color(0xFF9E9E9E)),
-                border: InputBorder.none,
-                contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                hintStyle: GoogleFonts.poppins(color: Color(0xFF9E9E9E)),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(25),
+                  borderSide: BorderSide.none,
+                ),
+                filled: true,
+                fillColor: Color(0xFFF0F0F0),
+                contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               ),
               onSubmitted: (_) => _sendMessage(),
             ),
           ),
           SizedBox(width: 8),
-          IconButton(
-            icon: Icon(Icons.send, color: Color(0xFF2196F3)),
+          FloatingActionButton(
+            mini: true,
+            child: Icon(Icons.send, color: Color(0xFFFFFFFF)),
+            backgroundColor: Color(0xFF2196F3),
             onPressed: _sendMessage,
           ),
         ],
@@ -18598,18 +19058,23 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:taleb_edu_platform/models/announcement_model.dart';
 import 'package:intl/intl.dart';
-import 'package:cached_network_image/cached_network_image.dart'; // Import cached_network_image
+import 'package:cached_network_image/cached_network_image.dart';
 
 class AnnouncementCarousel extends StatelessWidget {
   final List<Announcement> announcements;
+  final Function(Announcement) onAnnouncementTap;
 
-  const AnnouncementCarousel({Key? key, required this.announcements}) : super(key: key);
+  const AnnouncementCarousel({
+    Key? key,
+    required this.announcements,
+    required this.onAnnouncementTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return CarouselSlider(
       options: CarouselOptions(
-        height: 300.0, // Increased height
+        height: 300.0,
         aspectRatio: 16 / 9,
         viewportFraction: 0.8,
         initialPage: 0,
@@ -18625,82 +19090,85 @@ class AnnouncementCarousel extends StatelessWidget {
       items: announcements.map((announcement) {
         return Builder(
           builder: (BuildContext context) {
-            return Container(
-              width: MediaQuery.of(context).size.width,
-              margin: EdgeInsets.symmetric(horizontal: 5.0),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Stack( // Using Stack to overlay gradient
-                children: [
-                  ClipRRect( // ClipRRect to apply rounded corners to image
-                    borderRadius: BorderRadius.circular(10),
-                    child: CachedNetworkImage( // Using CachedNetworkImage for better image loading
-                      imageUrl: announcement.schoolImageUrl ?? '',
-                      width: MediaQuery.of(context).size.width,
-                      height: 300, // Matching Carousel height
-                      fit: BoxFit.cover,
-                      placeholder: (context, url) => Center(child: CircularProgressIndicator()),
-                      errorWidget: (context, url, error) => Icon(Icons.error),
-                    ),
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
+            return GestureDetector(
+              onTap: () => onAnnouncementTap(announcement),
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                margin: EdgeInsets.symmetric(horizontal: 5.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Stack(
+                  children: [
+                    ClipRRect(
                       borderRadius: BorderRadius.circular(10),
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [Colors.transparent, Colors.black.withOpacity(0.8)],
+                      child: CachedNetworkImage(
+                        imageUrl: announcement.schoolImageUrl ?? '',
+                        width: MediaQuery.of(context).size.width,
+                        height: 300,
+                        fit: BoxFit.cover,
+                        placeholder: (context, url) => Center(child: CircularProgressIndicator()),
+                        errorWidget: (context, url, error) => Icon(Icons.error),
                       ),
                     ),
-                  ),
-                  Positioned.fill( // Positioned.fill to cover the entire image with padding
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              CircleAvatar(
-                                backgroundImage: NetworkImage(announcement.schoolImageUrl ?? ''),
-                                radius: 25,
-                              ),
-                              SizedBox(width: 10),
-                              Expanded(
-                                child: Text(
-                                  announcement.title,
-                                  style: GoogleFonts.cairo(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [Colors.transparent, Colors.black.withOpacity(0.8)],
+                        ),
+                      ),
+                    ),
+                    Positioned.fill(
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                CircleAvatar(
+                                  backgroundImage: AssetImage('assets/images/logo.png'),
+                                  radius: 25,
+                                ),
+                                SizedBox(width: 10),
+                                Expanded(
+                                  child: Text(
+                                    announcement.title,
+                                    style: GoogleFonts.cairo(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
                                   ),
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
                                 ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 8),
-                          Row(
-                            children: [
-                              Text(
-                                DateFormat('dd/MM/yyyy').format(announcement.date),
-                                style: GoogleFonts.cairo(
-                                  fontSize: 14,
-                                  color: Colors.white70,
+                              ],
+                            ),
+                            SizedBox(height: 8),
+                            Row(
+                              children: [
+                                Text(
+                                  DateFormat('dd/MM/yyyy').format(announcement.date),
+                                  style: GoogleFonts.cairo(
+                                    fontSize: 14,
+                                    color: Colors.white70,
+                                  ),
                                 ),
-                              ),
-                              SizedBox(width: 10),
-                              _buildEducationLevelChip(announcement.category),
-                            ],
-                          ),
-                        ],
+                                SizedBox(width: 10),
+                                _buildEducationLevelChip(announcement.category),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             );
           },

@@ -99,27 +99,54 @@ class _GuidanceScreenState extends ConsumerState<GuidanceScreen> with SingleTick
           return Stack(
             children: [
               _pathwayStack.lastOrNull ?? Container(),
-              if (_pathwayStack.length > 1)
-                Positioned(
-                  top: 16,
-                  left: 16,
-                  child: FloatingActionButton(
-                    mini: true,
-                    child: Icon(Icons.arrow_back),
-                    onPressed: () {
-                      setState(() {
-                        _pathwayStack.removeLast();
-                        if (_pathwayStack.length == 1) {
-                          _selectedPathway = null;
-                          _selectedSpecialization = null;
-                        } else if (_pathwayStack.length == 2) {
-                          _selectedSpecialization = null;
-                        }
-                      });
-                    },
-                  ),
-                ),
-            ],
+if (_pathwayStack.length > 1)
+  Positioned(
+    top: 5, // This will push it up into the status bar area
+    left: 16,
+    child: Container(
+      decoration: BoxDecoration(
+        color: Theme.of(context).primaryColor,
+        shape: BoxShape.circle,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.2),
+            spreadRadius: 1,
+            blurRadius: 3,
+            offset: Offset(0, 2),
+          ),
+        ],
+      ),
+      child: ClipOval(
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: () {
+              setState(() {
+                _pathwayStack.removeLast();
+                if (_pathwayStack.length == 1) {
+                  _selectedPathway = null;
+                  _selectedSpecialization = null;
+                } else if (_pathwayStack.length == 2) {
+                  _selectedSpecialization = null;
+                }
+              });
+            },
+            child: SizedBox(
+              width: 34,
+              height: 34,
+              child: Icon(Icons.arrow_back, color: Colors.white, size: 28),
+            ),
+          ),
+        ),
+      ),
+    ),
+  ),
+
+
+
+
+
+        ],
           );
         },
         loading: () => Center(child: CircularProgressIndicator()),
@@ -642,20 +669,21 @@ Widget _buildEnhancedUniversityCard(University university) {
   }
 
   Widget _buildSectionHeader(String title) {
-    return Container(
-      padding: EdgeInsets.fromLTRB(16, 24, 16, 8),
-      alignment: Alignment.centerRight,
-      child: Text(
-        title,
-        style: cairoBold.copyWith(
-          fontSize: 24,
-          color: Colors.blue.shade800,
-          letterSpacing: 0.5,
-        ),
-        textAlign: TextAlign.right,
+  return Container(
+    padding: EdgeInsets.fromLTRB(16, 8, 16, 8),
+    margin: EdgeInsets.only(top: 30),
+    alignment: Alignment.centerRight,
+    child: Text(
+      title,
+      style: cairoBold.copyWith(
+        fontSize: 24,
+        color: Colors.blue.shade800,
+        letterSpacing: 0.5,
       ),
-    );
-  }
+      textAlign: TextAlign.right,
+    ),
+  );
+}
 
   void _performSearch(String query, List<University> allUniversities) {
     setState(() {

@@ -22,6 +22,7 @@ class MostajadatCustomizationScreen extends ConsumerStatefulWidget {
   final DateTime? deadlineDate;
   final String imageUrl;
   final String? cardImagePath;
+  final String category;
 
   MostajadatCustomizationScreen({
     this.mostajadat,
@@ -32,6 +33,7 @@ class MostajadatCustomizationScreen extends ConsumerStatefulWidget {
     this.deadlineDate,
     required this.imageUrl,
     required String type,
+    required this.category,
     this.cardImagePath,
   });
 
@@ -46,6 +48,7 @@ class _MostajadatCustomizationScreenState
   late TextEditingController _descriptionController;
   late TextEditingController _detailsController;
   String? _cardImagePath;
+  late String _selectedCategory;
 
   String? _headerImageUrl;
   List<ContentBlock> _contentBlocks = [];
@@ -67,7 +70,6 @@ class _MostajadatCustomizationScreenState
   double _imageWidth = 200.0;
   double _imageHeight = 200.0;
 
-  String _selectedCategory = 'jobs';
   List<String> _categories = ['jobs', 'guidance'];
 
   String _type = 'بدون';
@@ -107,6 +109,8 @@ class _MostajadatCustomizationScreenState
     }
     _loadSavedData();
     _cardImagePath = widget.cardImagePath;
+    _selectedCategory = widget.category;
+
 
   }
 

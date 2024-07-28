@@ -87,7 +87,7 @@ class _MyAppState extends ConsumerState<MyApp> {
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: currentLocale,
-      title: 'Taleb Educational Platform'.tr(),
+      title: 'My Tawjih',
       theme: lightTheme,
       debugShowCheckedModeBanner: false,
       builder: (context, child) {

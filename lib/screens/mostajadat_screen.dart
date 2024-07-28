@@ -274,25 +274,48 @@ class _MostajadatScreenState extends ConsumerState<MostajadatScreen>
             children: [
               _pathwayStack.isNotEmpty ? _pathwayStack.last : Container(),
               if (_pathwayStack.length > 1)
-                Positioned(
-                  top: 16,
-                  left: 16,
-                  child: FloatingActionButton(
-                    mini: true,
-                    child: Icon(Icons.arrow_back),
-                    onPressed: () {
-                      setState(() {
-                        _pathwayStack.removeLast();
-                        if (_pathwayStack.length == 1) {
-                          _selectedPathway = null;
-                          _selectedSpecialization = null;
-                        } else if (_pathwayStack.length == 2) {
-                          _selectedSpecialization = null;
-                        }
-                      });
-                    },
-                  ),
-                ),
+  Positioned(
+    top: 5, // This will push it up into the status bar area
+    left: 16,
+    child: Container(
+      decoration: BoxDecoration(
+        color: Theme.of(context).primaryColor,
+        shape: BoxShape.circle,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.2),
+            spreadRadius: 1,
+            blurRadius: 3,
+            offset: Offset(0, 2),
+          ),
+        ],
+      ),
+      child: ClipOval(
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: () {
+              setState(() {
+                _pathwayStack.removeLast();
+                if (_pathwayStack.length == 1) {
+                  _selectedPathway = null;
+                  _selectedSpecialization = null;
+                } else if (_pathwayStack.length == 2) {
+                  _selectedSpecialization = null;
+                }
+              });
+            },
+            child: SizedBox(
+              width: 34,
+              height: 34,
+              child: Icon(Icons.arrow_back, color: Colors.white, size: 28),
+            ),
+          ),
+        ),
+      ),
+    ),
+  ),
+
             ],
           );
         },

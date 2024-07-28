@@ -42,15 +42,38 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen>
   final Color backgroundColor = Color(0xFFF5F5F5);
   final Color cardColor = Color(0xFFFFFFFF);
   final Color textColor = Color(0xFF333333);
+  String _selectedCategory = 'jobs'; // Default category
+
+
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 5, vsync: this);
+    _tabController.addListener(_handleTabSelection);
+  }
+
+  void _handleTabSelection() {
+    if (_tabController.indexIsChanging) {
+      setState(() {
+        switch (_tabController.index) {
+          case 1: // Assuming index 1 is for jobs
+            _selectedCategory = 'jobs';
+            break;
+          case 2: // Assuming index 2 is for guidance
+            _selectedCategory = 'guidance';
+            break;
+          // Add more cases if you have more categories
+          default:
+            _selectedCategory = 'jobs'; // Default to 'jobs' if unknown
+        }
+      });
+    }
   }
 
   @override
   void dispose() {
+    _tabController.removeListener(_handleTabSelection);
     _tabController.dispose();
     super.dispose();
   }
@@ -147,7 +170,7 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen>
   Widget _buildMostajadatTab() {
     final Map<String, String> categoryMap = {
       'jobs': 'jobs_label',
-      'guidance': 'guidance_label',
+      'guidance': 'المؤسسات',
     };
 
     return DefaultTabController(
@@ -189,7 +212,7 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen>
               return Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: ElevatedButton(
-                  onPressed: () => _showAddMostajadatDialog(context),
+                  onPressed: () => _showAddMostajadatDialog(context, category),
                   child: Text('إضافة مستجد'.tr()),
                   style: ElevatedButton.styleFrom(
                     foregroundColor: Colors.white,
@@ -295,66 +318,64 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen>
     final dateFormat = DateFormat('dd/MM/yyyy');
     final formattedDate = dateFormat.format(mostajadat.date);
 
-    return Dismissible(
-      key: Key(mostajadat.id),
-      direction: DismissDirection.endToStart,
-      onDismissed: (direction) {
-        if (direction == DismissDirection.endToStart) {
-          _showDeleteConfirmation(context, 'mostajadat', mostajadat.id);
-        }
-      },
-      background: Container(
-        color: Colors.red,
-        alignment: Alignment.centerRight,
-        padding: EdgeInsets.only(right: 20.0),
-        margin: EdgeInsets.symmetric(horizontal: 15.0, vertical: 4.0),
-        child: Icon(Icons.delete, color: Colors.white),
+    return Card(
+      color: cardColor,
+      elevation: 2,
+      margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
       ),
-      child: Card(
-        color: cardColor,
-        elevation: 2,
-        margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
+      child: ListTile(
+        contentPadding: EdgeInsets.all(16),
+        title: Text(
+          mostajadat.title,
+          style: GoogleFonts.cairo(
+            color: textColor,
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+          ),
         ),
-        child: ListTile(
-          contentPadding: EdgeInsets.all(16),
-          title: Text(
-            mostajadat.title,
-            style: GoogleFonts.cairo(
-              color: textColor,
-              fontWeight: FontWeight.bold,
-              fontSize: 18,
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              mostajadat.description,
+              style: GoogleFonts.cairo(color: textColor, fontSize: 14),
             ),
-          ),
-          subtitle: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                mostajadat.description,
-                style: GoogleFonts.cairo(color: textColor, fontSize: 14),
-              ),
-              SizedBox(height: 8),
-              Row(
-                children: [
-                  Icon(Icons.calendar_today, size: 16, color: Colors.grey),
-                  SizedBox(width: 4),
-                  Text(
-                    'تاريخ النشر: $formattedDate',
-                    style: GoogleFonts.cairo(
-                      fontSize: 12,
-                      color: Colors.grey[600],
-                    ),
+            SizedBox(height: 8),
+            Row(
+              children: [
+                Icon(Icons.calendar_today, size: 16, color: Colors.grey),
+                SizedBox(width: 4),
+                Text(
+                  'تاريخ النشر: $formattedDate',
+                  style: GoogleFonts.cairo(
+                    fontSize: 12,
+                    color: Colors.grey[600],
                   ),
-                ],
-              ),
-            ],
-          ),
-          onTap: () => _showEditMostajadatDialog(context, mostajadat),
+                ),
+              ],
+            ),
+          ],
         ),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            IconButton(
+              icon: Icon(Icons.edit, color: primaryColor),
+              onPressed: () => _showEditMostajadatDialog(context, mostajadat),
+            ),
+            IconButton(
+              icon: Icon(Icons.delete, color: Colors.red),
+              onPressed: () => _showDeleteConfirmation(context, 'mostajadat', mostajadat.id),
+            ),
+          ],
+        ),
+        onTap: () => _showEditMostajadatDialog(context, mostajadat),
       ),
     );
   }
+
 
   void _showAddNewsDialog(BuildContext context) {
     showDialog(
@@ -411,30 +432,34 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen>
     );
   }
 
-  void _showAddMostajadatDialog(BuildContext context) {
+ void _showAddMostajadatDialog(BuildContext context, String category) {
     showDialog(
       context: context,
       builder: (context) => AddMostajadatDialog(
         ref: ref,
+        initialCategory: category, // Pass the category here
       ),
     );
   }
 
-  void _showEditMostajadatDialog(BuildContext context, Mostajadat mostajadat) {
-    showDialog(
-      context: context,
-      builder: (context) => MostajadatCustomizationScreen(
-        mostajadat: mostajadat,
-        title: mostajadat.title,
-        description: mostajadat.description,
-        details: mostajadat.details,
-        date: mostajadat.date,
-        deadlineDate: mostajadat.deadlineDate,
-        imageUrl: mostajadat.imageUrl,
-        type: mostajadat.type,
-      ),
-    );
-  }
+
+void _showEditMostajadatDialog(BuildContext context, Mostajadat mostajadat) {
+  showDialog(
+    context: context,
+    builder: (context) => MostajadatCustomizationScreen(
+      mostajadat: mostajadat,
+      title: mostajadat.title,
+      description: mostajadat.description,
+      details: mostajadat.details,
+      date: mostajadat.date,
+      deadlineDate: mostajadat.deadlineDate,
+      imageUrl: mostajadat.imageUrl,
+      type: mostajadat.type,
+      category: mostajadat.category, // Add this line
+      cardImagePath: mostajadat.cardImagePath, // Add this line if it exists in your Mostajadat model
+    ),
+  );
+}
 
   void _showDeleteConfirmation(BuildContext context, String type, String id) {
     showDialog(
@@ -835,7 +860,6 @@ class _AnnouncementDialogState extends ConsumerState<AnnouncementDialog> {
             DropdownButtonFormField<String>(
               value: _category,
               decoration: InputDecoration(
-                labelText: 'الفئة'.tr(),
                 labelStyle: GoogleFonts.cairo(color: widget.textColor),
                 prefixIcon: Icon(Icons.category, color: widget.primaryColor),
                 border: OutlineInputBorder(
@@ -1045,9 +1069,11 @@ class _AnnouncementDialogState extends ConsumerState<AnnouncementDialog> {
 
 class AddMostajadatDialog extends ConsumerStatefulWidget {
   final WidgetRef ref;
+  final String initialCategory;
 
   AddMostajadatDialog({
     required this.ref,
+    required this.initialCategory,
   });
 
   @override
@@ -1059,18 +1085,12 @@ class _AddMostajadatDialogState extends ConsumerState<AddMostajadatDialog> {
   String _title = '';
   String _description = '';
   String _details = '';
-  String _category = 'الوظائف';
   DateTime _date = DateTime.now();
   DateTime? _deadlineDate;
   File? _imageFile;
   String _type = 'بدون';
   File? _cardImageFile;
   String? _cardImagePath;
-
-  final List<String> _categories = [
-    'الوظائف',
-    'التوجيه',
-  ];
 
   final List<String> _types = [
     'بدون',
@@ -1132,10 +1152,10 @@ class _AddMostajadatDialogState extends ConsumerState<AddMostajadatDialog> {
                         backgroundColor: Colors.blue,
                       ),
                     ),
-                    SizedBox(height: 16),
+              SizedBox(height: 16),
               _cardImageFile != null
-                  ? ClipRRect( // Wrap the Image.file with ClipRRect
-                      borderRadius: BorderRadius.circular(80.0), // Adjust radius as needed
+                  ? ClipRRect(
+                      borderRadius: BorderRadius.circular(80.0),
                       child: Image.file(_cardImageFile!, height: 100),
                     )
                   : ElevatedButton(
@@ -1217,27 +1237,6 @@ class _AddMostajadatDialogState extends ConsumerState<AddMostajadatDialog> {
                 ),
                 style: GoogleFonts.cairo(color: Colors.black),
               ),
-              SizedBox(height: 16),
-              DropdownButtonFormField<String>(
-                value: _category,
-                items: _categories.map((category) {
-                  return DropdownMenuItem(
-                    value: category,
-                    child: Text(category, style: GoogleFonts.cairo()),
-                  );
-                }).toList(),
-                onChanged: (value) {
-                  setState(() {
-                    _category = value!;
-                  });
-                },
-                decoration: InputDecoration(
-                  labelText: 'الفئة',
-                  labelStyle: GoogleFonts.cairo(color: Colors.black),
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-                ),
-                style: GoogleFonts.cairo(color: Colors.black),
-              ),
             ],
           ),
         ),
@@ -1259,13 +1258,13 @@ class _AddMostajadatDialogState extends ConsumerState<AddMostajadatDialog> {
     );
   }
 
-   void _submitForm() async {
+  void _submitForm() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
 
-      String imageUrl = ''; // Initialize imageUrl
+      String imageUrl = '';
       if (_imageFile != null) {
-        imageUrl = await _uploadImage(_imageFile!); // Await the upload here
+        imageUrl = await _uploadImage(_imageFile!);
       }
 
       if (_cardImageFile != null) {
@@ -1279,9 +1278,10 @@ class _AddMostajadatDialogState extends ConsumerState<AddMostajadatDialog> {
           details: '',
           date: _date,
           deadlineDate: _deadlineDate,
-          imageUrl: imageUrl, // Pass the uploaded image URL
+          imageUrl: imageUrl,
           type: _type,
           cardImagePath: _cardImagePath,
+          category: widget.initialCategory,
         ),
       ));
     }
@@ -1292,7 +1292,19 @@ class _AddMostajadatDialogState extends ConsumerState<AddMostajadatDialog> {
     await storageRef.putFile(imageFile);
     return await storageRef.getDownloadURL();
   }
+
+  String _getCategoryDisplayName(String category) {
+    switch (category) {
+      case 'jobs':
+        return 'الوظائف';
+      case 'guidance':
+        return 'التوجيه';
+      default:
+        return category;
+    }
+  }
 }
+
 extension StringExtension on String {
   String capitalize() {
     return "${this[0].toUpperCase()}${this.substring(1)}";

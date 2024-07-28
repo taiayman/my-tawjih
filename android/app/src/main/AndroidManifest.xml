@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.taleb.ma">
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -22,11 +23,8 @@
         android:icon="@mipmap/ic_launcher">
 
         <meta-data
-        android:name="com.onesignal.NotificationAccentColor.DEFAULT"
-        android:value="FF00FF00" />
-    <meta-data
-        android:name="com.onesignal.NotificationIcon"
-        android:resource="@mipmap/ic_launcher" />
+           android:name="com.onesignal.NotificationAccentColor.DEFAULT"
+           android:value="FF00FF00" />
 
         <activity
             android:name=".MainActivity"
