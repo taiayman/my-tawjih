@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.taleb.ma">
 
@@ -22,9 +23,14 @@
         android:enableOnBackInvokedCallback="true"
         android:icon="@mipmap/ic_launcher">
 
+        <!-- OneSignal metadata -->
         <meta-data
-           android:name="com.onesignal.NotificationAccentColor.DEFAULT"
-           android:value="FF00FF00" />
+            android:name="com.onesignal.NotificationIcon"
+            android:resource="@drawable/ic_stat_onesignal_default" />
+
+        <meta-data
+            android:name="com.onesignal.NotificationAccentColor.DEFAULT"
+            android:value="FFFFFFFF" />
 
         <activity
             android:name=".MainActivity"
@@ -77,5 +83,6 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="high_importance_channel" />
+
     </application>
 </manifest>

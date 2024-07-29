@@ -101,26 +101,50 @@ class _AdminEducationPathwayScreenState extends ConsumerState<AdminEducationPath
           return Stack(
             children: [
               _pathwayStack.isNotEmpty ? _pathwayStack.last : Container(),
-              if (_pathwayStack.length > 1)
-                Positioned(
-                  top: 16,
-                  left: 16,
-                  child: FloatingActionButton(
-                    mini: true,
-                    child: Icon(Icons.arrow_back),
-                    onPressed: () {
-                      setState(() {
-                        _pathwayStack.removeLast();
-                        if (_pathwayStack.length == 1) {
-                          _selectedPathway = null;
-                          _selectedSpecialization = null;
-                        } else if (_pathwayStack.length == 2) {
-                          _selectedSpecialization = null;
-                        }
-                      });
-                    },
-                  ),
-                ),
+if (_pathwayStack.length > 1)
+  Positioned(
+    top: 5, // This will push it up into the status bar area
+    left: 16,
+    child: Container(
+      decoration: BoxDecoration(
+        color: Theme.of(context).primaryColor,
+        shape: BoxShape.circle,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.2),
+            spreadRadius: 1,
+            blurRadius: 3,
+            offset: Offset(0, 2),
+          ),
+        ],
+      ),
+      child: ClipOval(
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: () {
+              setState(() {
+                _pathwayStack.removeLast();
+                if (_pathwayStack.length == 1) {
+                  _selectedPathway = null;
+                  _selectedSpecialization = null;
+                } else if (_pathwayStack.length == 2) {
+                  _selectedSpecialization = null;
+                }
+              });
+            },
+            child: SizedBox(
+              width: 34,
+              height: 34,
+              child: Icon(Icons.arrow_back, color: Colors.white, size: 28),
+            ),
+          ),
+        ),
+      ),
+    ),
+  ),
+
+
             ],
           );
         },
@@ -159,58 +183,146 @@ class _AdminEducationPathwayScreenState extends ConsumerState<AdminEducationPath
     );
   }
 
-  Widget _buildPathwayCard(EducationPathway pathway) {
-    return Card(
-      elevation: 0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-      color: Colors.white,
-      margin: EdgeInsets.only(bottom: 16),
-      child: InkWell(
-        onTap: () {
-          setState(() {
-            _selectedPathway = pathway;
-            _pathwayStack.add(_buildSpecializationsView(pathway));
-          });
-        },
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                pathway.name,
-                style: cairoSemiBold.copyWith(fontSize: 20, color: Colors.black87),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-              SizedBox(height: 8),
-              Text(
-                pathway.description,
-                style: cairoRegular.copyWith(fontSize: 14, color: Colors.black54),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-              SizedBox(height: 16),
-              Row(
-                children: [
-                  Icon(Icons.library_books, color: Colors.blue.shade600),
-                  SizedBox(width: 8),
-                  Expanded(
-                    child: Text(
-                      '${pathway.specializations.length} تخصصات',
-                      style: cairoSemiBold.copyWith(fontSize: 14, color: Colors.blue.shade600),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
+Widget _buildPathwayCard(EducationPathway pathway) {
+  return Card(
+    elevation: 0,
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+    color: Colors.white,
+    margin: EdgeInsets.only(bottom: 16),
+    child: InkWell(
+      onTap: () {
+        setState(() {
+          _selectedPathway = pathway;
+          _pathwayStack.add(_buildSpecializationsView(pathway));
+        });
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Text(
+                    pathway.name,
+                    style: cairoSemiBold.copyWith(fontSize: 20, color: Colors.black87),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                ],
+                ),
+                Row(
+                  children: [
+                    IconButton(
+                      icon: Icon(Icons.edit, color: Colors.blue),
+                      onPressed: () => _editPathway(pathway),
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.delete, color: Colors.red),
+                      onPressed: () => _deletePathway(pathway.id),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            SizedBox(height: 8),
+            Text(
+              pathway.description,
+              style: cairoRegular.copyWith(fontSize: 14, color: Colors.black54),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
+            SizedBox(height: 16),
+            Row(
+              children: [
+                Icon(Icons.library_books, color: Colors.blue.shade600),
+                SizedBox(width: 8),
+                Text(
+                  '${pathway.specializations.length} تخصصات',
+                  style: cairoSemiBold.copyWith(fontSize: 14, color: Colors.blue.shade600),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
+}
+
+void _editPathway(EducationPathway pathway) {
+  final _formKey = GlobalKey<FormState>();
+  String _name = pathway.name;
+  String _description = pathway.description;
+  String _imageUrl = pathway.imageUrl;
+
+  showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: Text('تعديل المسار التعليمي', style: cairoBold),
+      content: Form(
+        key: _formKey,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextFormField(
+                initialValue: _name,
+                decoration: InputDecoration(
+                  labelText: 'اسم المسار',
+                  labelStyle: cairoRegular,
+                ),
+                style: TextStyle(color: Colors.black),
+                validator: (value) => value!.isEmpty ? 'الرجاء إدخال اسم المسار' : null,
+                onSaved: (value) => _name = value!,
               ),
+              TextFormField(
+                initialValue: _description,
+                decoration: InputDecoration(
+                  labelText: 'الوصف',
+                  labelStyle: cairoRegular,
+                ),
+                style: TextStyle(color: Colors.black),
+                validator: (value) => value!.isEmpty ? 'الرجاء إدخال وصف المسار' : null,
+                onSaved: (value) => _description = value!,
+              ),
+              
             ],
           ),
         ),
       ),
-    );
-  }
+      actions: [
+        TextButton(
+          child: Text('إلغاء', style: cairoRegular),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        ElevatedButton(
+          child: Text('حفظ التغييرات', style: cairoSemiBold),
+          onPressed: () async {
+            if (_formKey.currentState!.validate()) {
+              _formKey.currentState!.save();
+              final updatedPathway = EducationPathway(
+                id: pathway.id,
+                name: _name,
+                description: _description,
+                imageUrl: _imageUrl,
+                specializations: pathway.specializations,
+              );
+              await ref.read(educationPathwayProvider.notifier).updatePathway(updatedPathway);
+              Navigator.of(context).pop();
+              setState(() {}); // Refresh the UI
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('تم تحديث المسار التعليمي بنجاح', style: cairoRegular))
+              );
+            }
+          },
+        ),
+      ],
+    ),
+  );
+}
+
 
   Widget _buildSpecializationsView(EducationPathway pathway) {
     return Column(
@@ -241,53 +353,170 @@ class _AdminEducationPathwayScreenState extends ConsumerState<AdminEducationPath
     );
   }
 
-  Widget _buildSpecializationCard(Specialization specialization) {
-    return Card(
-      elevation: 0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-      color: Colors.white,
-      margin: EdgeInsets.only(bottom: 16),
-      child: InkWell(
-        onTap: () {
-          setState(() {
-            _selectedSpecialization = specialization;
-            _pathwayStack.add(_buildUniversitiesView(specialization));
-          });
-        },
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                specialization.name,
-                style: cairoSemiBold.copyWith(fontSize: 18, color: Colors.black87),
-              ),
-              SizedBox(height: 8),
-              Text(
-                specialization.description,
-                style: cairoRegular.copyWith(fontSize: 14, color: Colors.black54),
-                maxLines: 3,
-                overflow: TextOverflow.ellipsis,
-              ),
-              SizedBox(height: 16),
-              Row(
-                children: [
-                  Icon(Icons.school, color: Colors.green.shade600),
-                  SizedBox(width: 8),
-                  Text(
-                    '${specialization.universities.length} جامعات',
-                    style: cairoSemiBold.copyWith(fontSize: 14, color: Colors.green.shade600),
+Widget _buildSpecializationCard(Specialization specialization) {
+  return Card(
+    elevation: 0,
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+    color: Colors.white,
+    margin: EdgeInsets.only(bottom: 16),
+    child: InkWell(
+      onTap: () {
+        setState(() {
+          _selectedSpecialization = specialization;
+          _pathwayStack.add(_buildUniversitiesView(specialization));
+        });
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Text(
+                    specialization.name,
+                    style: cairoSemiBold.copyWith(fontSize: 18, color: Colors.black87),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                ],
+                ),
+                Row(
+                  children: [
+                    IconButton(
+                      icon: Icon(Icons.edit, color: Colors.blue),
+                      onPressed: () => _editSpecialization(specialization),
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.delete, color: Colors.red),
+                      onPressed: () => _deleteSpecialization(specialization.id),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            SizedBox(height: 8),
+            Text(
+              specialization.description,
+              style: cairoRegular.copyWith(fontSize: 14, color: Colors.black54),
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
+            ),
+            SizedBox(height: 16),
+            Row(
+              children: [
+                Icon(Icons.school, color: Colors.green.shade600),
+                SizedBox(width: 8),
+                Text(
+                  '${specialization.universities.length} جامعات',
+                  style: cairoSemiBold.copyWith(fontSize: 14, color: Colors.green.shade600),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
+}
+
+void _editSpecialization(Specialization specialization) {
+  final _formKey = GlobalKey<FormState>();
+  String _name = specialization.name;
+  String _description = specialization.description;
+
+  showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: Text('تعديل التخصص', style: cairoBold),
+      content: Form(
+        key: _formKey,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextFormField(
+                initialValue: _name,
+                decoration: InputDecoration(
+                  labelText: 'اسم التخصص',
+                  labelStyle: cairoRegular.copyWith(color: Colors.black54),
+                ),
+                style: TextStyle(color: Colors.black), // Set text color to black
+                validator: (value) => value!.isEmpty ? 'الرجاء إدخال اسم التخصص' : null,
+                onSaved: (value) => _name = value!,
+              ),
+              TextFormField(
+                initialValue: _description,
+                decoration: InputDecoration(
+                  labelText: 'الوصف',
+                  labelStyle: cairoRegular.copyWith(color: Colors.black54),
+                ),
+                style: TextStyle(color: Colors.black), // Set text color to black
+                validator: (value) => value!.isEmpty ? 'الرجاء إدخال وصف التخصص' : null,
+                onSaved: (value) => _description = value!,
               ),
             ],
           ),
         ),
       ),
-    );
-  }
+      actions: [
+        TextButton(
+          child: Text('إلغاء', style: cairoRegular),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        ElevatedButton(
+          child: Text('حفظ التغييرات', style: cairoSemiBold),
+          onPressed: () {
+            if (_formKey.currentState!.validate()) {
+              _formKey.currentState!.save();
+              final updatedSpecialization = Specialization(
+                id: specialization.id,
+                name: _name,
+                description: _description,
+                universities: specialization.universities,
+              );
+              int specializationIndex = _selectedPathway!.specializations.indexWhere((s) => s.id == specialization.id);
+              _selectedPathway!.specializations[specializationIndex] = updatedSpecialization;
+              ref.read(educationPathwayProvider.notifier).updatePathway(_selectedPathway!);
+              Navigator.of(context).pop();
+              setState(() {}); // Refresh the UI
+            }
+          },
+        ),
+      ],
+    ),
+  );
+}
 
+void _deleteSpecialization(String specializationId) async {
+  final result = await showDialog<bool>(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: Text('تأكيد الحذف', style: cairoBold),
+      content: Text('هل أنت متأكد من حذف هذا التخصص؟', style: cairoRegular),
+      actions: [
+        TextButton(
+          child: Text('إلغاء', style: cairoRegular),
+          onPressed: () => Navigator.of(context).pop(false),
+        ),
+        TextButton(
+          child: Text('حذف', style: cairoRegular.copyWith(color: Colors.red)),
+          onPressed: () => Navigator.of(context).pop(true),
+        ),
+      ],
+    ),
+  );
+
+  if (result == true) {
+    _selectedPathway!.specializations.removeWhere((spec) => spec.id == specializationId);
+    await ref.read(educationPathwayProvider.notifier).updatePathway(_selectedPathway!);
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('تم حذف التخصص', style: cairoRegular))
+    );
+    setState(() {}); // Refresh the UI
+  }
+}
   Widget _buildUniversitiesView(Specialization specialization) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -871,34 +1100,7 @@ void _deleteUniversity(University university) {
     }
   }
 
-  void _deleteSpecialization(String specializationId) async {
-    final result = await showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('تأكيد الحذف', style: cairoBold),
-        content: Text('هل أنت متأكد من حذف هذا التخصص؟', style: cairoRegular),
-        actions: [
-          TextButton(
-            child: Text('إلغاء', style: cairoRegular),
-            onPressed: () => Navigator.of(context).pop(false),
-          ),
-          TextButton(
-            child: Text('حذف', style: cairoRegular.copyWith(color: Colors.red)),
-            onPressed: () => Navigator.of(context).pop(true),
-          ),
-        ],
-      ),
-    );
-
-    if (result == true) {
-      _selectedPathway!.specializations.removeWhere((spec) => spec.id == specializationId);
-      ref.read(educationPathwayProvider.notifier).updatePathway(_selectedPathway!);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('تم حذف التخصص', style: cairoRegular))
-      );
-    }
-  }
-
+  
 
 }
 
