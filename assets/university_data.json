@@ -1,0 +1,163 @@
+{
+  "institutions": [
+    {"name": "الدراسات الجامعية", "count": 22, "icon": "school"},
+    {"name": "التكوينات العسكرية", "count": 11, "icon": "security"},
+    {"name": "المدارس الوطنية العليا - ENC", "count": 9, "icon": "engineering"},
+    {"name": "المدارس التجارية و المعاهد", "count": 10, "icon": "business"},
+    {"name": "المدارس العليا للتكنولوجيا - EST", "count": 7, "icon": "computer"},
+    {"name": "القطاع الصحي و شبه الطبي", "count": 12, "icon": "local_hospital"},
+    {"name": "المدارس الوطنية للعلوم التطبيقية -ENSA", "count": 4, "icon": "science"},
+    {"name": "المعاهد العليا للمهن التمريضية", "count": 11, "icon": "local_hospital"},
+    {"name": "المعاهد", "count": 3, "icon": "location_city"},
+    {"name": "المدارس الوطنية للفنون و المهن - ENSAM", "count": 2, "icon": "brush"},
+    {"name": "القطاع الفلاحي و البيطري", "count": 8, "icon": "agriculture"},
+    {"name": "مدارس التكوين في الصيد البحري", "count": 2, "icon": "directions_boat"},
+    {"name": "المعاهد العليا للإعلام و الاتصال", "count": 5, "icon": "mic"},
+    {"name": "المدارس الوطنية للهندسة المعمارية", "count": 7, "icon": "architecture"},
+    {"name": "معاهد الدراسات السياحية", "count": 5, "icon": "hotel"},
+    {"name": "مراكز التكوين المهني و التقني", "count": 5, "icon": "handyman"},
+    {"name": "معاهد الصحة و السلامة", "count": 3, "icon": "health_and_safety"},
+    {"name": "التعليم العسكري", "count": 1, "icon": "military_tech"},
+    {"name": "معاهد الأشغال العمومية", "count": 4, "icon": "construction"},
+    {"name": "غير مصنفة", "count": 1, "icon": "help"}
+  ],
+  "universityCategories": [
+    {
+      "name": "كليات العلوم",
+      "count": 10,
+      "faculties": [
+        {"code": "FS CASABLANCA AIN CH", "name": "كلية العلوم عين الشق"},
+        {"code": "FSSM", "name": "كلية العلوم السملالية بمراكش"},
+        {"code": "FS EL JADIDA", "name": "كلية العلوم الجديدة"},
+        {"code": "FS MEKNÈS", "name": "كلية العلوم مكناس"},
+        {"code": "FS AGADIR", "name": "كلية العلوم أكادير"},
+        {"code": "FS CASA BEN MSIK", "name": "كلية العلوم بن مسيك"},
+        {"code": "FS KÉNITRA", "name": "كلية العلوم القنيطرة"},
+        {"code": "FS TÉTOUAN", "name": "كلية العلوم تطوان"},
+        {"code": "FS OUJDA", "name": "كلية العلوم وجدة"},
+        {"code": "FS RABAT", "name": "كلية العلوم الرباط"}
+      ]
+    },
+    {
+      "name": "كليات متعددة التخصصات",
+      "count": 11,
+      "faculties": [
+        {"code": "FARM", "name": "كلية متعدد التخصصات من بنى هلال"},
+        {"code": "FP-SCAFI", "name": "الكلية المتعددة التخصصات أسفر"},
+        {"code": "FP EL JADIDA", "name": "الكلية المتعددة التخصصات الجديدة"},
+        {"code": "FPERRACHIDIA", "name": "الكلية المتعددة التخصصات الرشيدية"},
+        {"code": "FP DUARZAZATE", "name": "الكلية المتعددة التخصصات ووزارات"},
+        {"code": "FAT", "name": "الكلية المتعددة التخصصات بنار ودانت"},
+        {"code": "FPTETOUAN", "name": "الكلية المتعددة التخصصات تطوان"},
+        {"code": "FPNADOR", "name": "الكلية المتعددة التخصصات الناظور"},
+        {"code": "FP LARACHE", "name": "الكلية المتعددة التخصصات العوانشر"},
+        {"code": "FPKHOURIBGA", "name": "الكلية المتعددة التخصصات خربمكة"},
+        {"code": "FP TAZA", "name": "الكلية المتعددة التخصصات تازة"}
+      ]
+    },
+    {
+      "name": "كليات طب الأسنان",
+      "count": 2,
+      "faculties": [
+        {"code": "FMD RABAT", "name": "كلية طب الأسنان الرباط"},
+        {"code": "FMD CASABLANCA", "name": "كلية طب الأسنان الدار البيضاء"}
+      ]
+    },
+    {
+      "name": "كليات الطب و الصيـدلة",
+      "count": 6,
+      "faculties": [
+        {"code": "FMPM", "name": "كلية الطب والصيدلة مراكش"},
+        {"code": "FMP RABAT", "name": "كلية الطب والصيدلة الرباط"},
+        {"code": "FMP CASABLANCA", "name": "كلية الطب والصيدلة الدار البيضاء"},
+        {"code": "FMP TANGER", "name": "كلية الطب والصيدلة طنجة"},
+        {"code": "FMP OUJDA", "name": "كلية الطب والصيدلة وجدة"},
+        {"code": "FMP FÈS", "name": "كلية الطب والصيدلة فاس"}
+      ]
+    },
+    {
+      "name": "كليات العلوم و التقنيات",
+      "count": 8,
+      "faculties": [
+        {"code": "FSTBM", "name": "كلية العلوم والتكنولوجيا ت بني ملال"},
+        {"code": "FDSETDG", "name": "كلية العلوم والتقنيات مراكش"},
+        {"code": "FST ERRACHIDIA", "name": "كلية العلوم والتقنيات الراشدية"},
+        {"code": "FST MOHAMMEDIA", "name": "كلية العلوم والتقنيات المحمدية"},
+        {"code": "FST TANGER", "name": "كلية العلوم والتقنيات طنجة"},
+        {"code": "FST AL HOCEIMA", "name": "كلية العلوم والتقنيات الحسيمة"},
+        {"code": "FST SETTAT", "name": "كلية العلوم والتقنيات سطات"},
+        {"code": "FST FÈS", "name": "كلية العلوم والتقنيات فاس"}
+      ]
+    },
+    {
+      "name": "كليات علوم التربية",
+      "count": 1,
+      "faculties": [
+        {"code": "FSE RABAT", "name": "كلية علوم التربية الرباط"}
+      ]
+    },
+    {
+      "name": "كليات الآداب و العلوم الانسانية",
+      "count": 14,
+      "faculties": [
+        {"code": "FLSHBM", "name": "كلية الآداب والعلوم الإنسانية بني ملال"},
+        {"code": "FLSH-MARRAKECH", "name": "كلية الآداب والعلوم الإنسانية مراكش"},
+        {"code": "FLSH EL JADIDA", "name": "كلية الآداب والعلوم الإنسانية الجديدة"},
+        {"code": "FLSH MEKNÈS", "name": "كلية الآداب والعلوم الإنسانية مكناس"},
+        {"code": "FLSH AGADIR", "name": "كلية الآداب والعلوم الإنسانية أكادير"},
+        {"code": "FLSH RABAT", "name": "كلية الآداب والعلوم الإنسانية الرباط"},
+        {"code": "FLSH CASABLANCA", "name": "كلية الآداب والعلوم الإنسانية عين الشق"},
+        {"code": "FDLEDSHBM", "name": "كلية الآداب والعلوم الإنسانية ابن مسيك"},
+        {"code": "FLSH MOHAMMEDIA", "name": "كلية الآداب والعلوم الإنسانية المحمدية"},
+        {"code": "FLSH KÉNITRA", "name": "كلية الآداب والعلوم الإنسانية القنيطرة"},
+        {"code": "FLSH TÉTOUAN", "name": "كلية الآداب والعلوم الإنسانية تطوان"},
+        {"code": "FLSH OUJDA", "name": "كلية الآداب والعلوم الإنسانية وجدة"},
+        {"code": "FLSH FÈS SAIS", "name": "كلية الآداب والعلوم الإنسانية سايس فاس"},
+        {"code": "FLSH DHAR EL MEHRAZ", "name": "كلية الآداب والعلوم الإنسانية ظهر المهراز فاس"}
+      ]
+    },
+    {
+      "name": "كليات العلوم القانونية و الاقتصادية و الاجتماعية",
+      "count": 14,
+      "faculties": [
+        {"code": "FSJES - MARRAKECH", "name": "كلية العلوم القانونية والاقتصادية والاجتماعية مراكش"},
+        {"code": "FSJES MEKNÈS", "name": "كلية العلوم القانونية والاقتصادية والاجتماعية مكناس"},
+        {"code": "FSJES AGADIR", "name": "كلية العلوم القانونية والاقتصادية والاجتماعية أكادير"},
+        {"code": "FSJES RABAT AGDAL", "name": "كلية العلوم القانونية والاقتصادية والاجتماعية أكدال"},
+        {"code": "FSJES RABAT SOUISSI", "name": "كلية العلوم القانونية والاقتصادية والاجتماعية السويسي"},
+        {"code": "FSJES -AIN CHOCK", "name": "كلية العلوم القانونية والاقتصادية والاجتماعية عين الشق"},
+        {"code": "FSJES AIN SEBAÀ", "name": "كلية العلوم القانونية والاقتصادية والاجتماعية عين السبع"},
+        {"code": "FSJES MOHAMMEDIA", "name": "كلية العلوم القانونية والاقتصادية والاجتماعية المحمدية"},
+        {"code": "FSJES KÉNITRA", "name": "كلية العلوم القانونية والاقتصادية والاجتماعية القنيطرة"},
+        {"code": "FSJES TANGER", "name": "كلية العلوم القانونية والاقتصادية والاجتماعية طنجة"},
+        {"code": "FSJES OUJDA", "name": "كلية العلوم القانونية والاقتصادية والاجتماعية وجدة"},
+        {"code": "FSJES SALÉ", "name": "كلية العلوم القانونية والاقتصادية والاجتماعية سلا"},
+        {"code": "FSJES SETTAT", "name": "كلية العلوم القانونية والاقتصادية والاجتماعية سطات"},
+        {"code": "FSJES FÈS", "name": "كلية العلوم القانونية والاقتصادية والاجتماعية فاس"}
+      ]
+    },
+    {
+      "name": "كليات الشريعة و اللغة العربية",
+      "count": 5,
+      "faculties": [
+        {"code": "FCH FÈS", "name": "كلية الشريعة بفاس"},
+        {"code": "FALAAMARRAKECH", "name": "كلية اللغة العربية مراكش"},
+        {"code": "FOE TETOUSAN", "name": "كلية أصول الدين بتطوان"},
+        {"code": "FCAGADIRAIT WELL", "name": "كلية الشريعة أكادير"},
+        {"code": "FAAESSIMARA", "name": "كلية العلوم الشرعية العمارة"}
+      ]
+    }
+  ],
+  "universities": [
+    {"code": "UH2 CASABLANCA", "name": "جامعة الحسن الثاني الدار البيضاء"},
+    {"code": "UCA", "name": "جامعة القاضي عياض"},
+    {"code": "UBMSMS", "name": "جامعة السلطان مولاي سليمان بني ملال"},
+    {"code": "UEJCD", "name": "جامعة شعيب الدكالي بالجديدة"},
+    {"code": "UMI-MEKNÈS", "name": "جامعة مولاي إسماعيل"},
+    {"code": "UIZ AGADIR", "name": "جامعة ابن زهر"},
+    {"code": "UM5", "name": "جامعة محمد الخامس"},
+    {"code": "UQ FÈS", "name": "جامعة القرويين بفاس"},
+    {"code": "UITK", "name": "جامعة ابن طفيل القنيطرة"},
+    {"code": "UTAE", "name": "جامعة عبد المالك السعدي"}
+  ]
+}
